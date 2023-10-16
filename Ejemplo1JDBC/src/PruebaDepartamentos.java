@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class Prueba {
+public class PruebaDepartamentos {
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost:3306/empleadoss_departamentoss?useSSL=false";
         String sql = "SELECT codDepto, nombreDpto FROM departamentos";
