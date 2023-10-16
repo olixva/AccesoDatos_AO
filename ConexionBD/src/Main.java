@@ -1,28 +1,21 @@
-import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import datos.Conexion;
+import datos.EmpleadoDAO;
+import domain.EmpleadoDTO;
 
 public class Main {
     public static void main(String[] args) {
-        String sql = "SELECT nomEmp, fecNac, salEmp FROM empleados";
+        EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+        
+        List<EmpleadoDTO> empleados = new ArrayList<>();
+        
+        // for (EmpleadoDTO empleado : empleadoDAO.seleccionar()) {
+        //     System.out.println(empleado.toString() + "\n");
+        // }
 
-        try {
-
-            Connection conecction = Conexion.getConnection();
-            Statement intruccion = conecction.createStatement();
-            ResultSet rS = intruccion.executeQuery(sql);
-
-            while (rS.next()) {
-                System.out.print("Nombre: " + rS.getString("nomEmp"));
-                System.out.print(" Fecha Nacimientos: " + rS.getDate("fecNAc"));
-                System.out.print(" Salario: " + rS.getFloat("salEmp") + "\n\n");
-            }
-            
-            Conexion.close(rS);
-            Conexion.close(intruccion);
-            Conexion.close(conecction);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        empleados.forEach(empleado -> {
+            System.out.println(empleado);
+        });
     }
 }

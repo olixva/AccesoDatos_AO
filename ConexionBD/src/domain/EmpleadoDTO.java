@@ -41,6 +41,13 @@ public class EmpleadoDTO {
         this.codDepto = codDepto;
     }
 
+    @Override
+    public String toString() {
+        return "EmpleadoDTO [idEmpleado=" + idEmpleado + ", nombre=" + nombre + ", sexo=" + sexo + ", fechaNac="
+                + fechaNac + ", fechaIncorpora=" + fechaIncorpora + ", salario=" + salario + ", comision=" + comision
+                + ", cargo=" + cargo + ", idJefe=" + idJefe + ", codDepto=" + codDepto + "]";
+    }
+
     public String getIdEmpleado() {
         return idEmpleado;
     }
@@ -120,7 +127,4 @@ public class EmpleadoDTO {
     public void setCodDepto(String codDepto) {
         this.codDepto = codDepto;
     }
-
-    
-    
 }
