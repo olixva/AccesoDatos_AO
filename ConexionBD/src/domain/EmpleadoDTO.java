@@ -1,26 +1,18 @@
 package domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class EmpleadoDTO {
+    
     private String idEmpleado;
-
     private String nombre;
-
     private char sexo;
-
     private Date fechaNac;
-
     private Date fechaIncorpora;
-
     private float salario;
-
     private float comision;
-
     private String cargo;
-
     private String idJefe;
-
     private String codDepto;
 
     public EmpleadoDTO(String idEmpleado) {
@@ -66,6 +58,10 @@ public class EmpleadoDTO {
 
     public char getSexo() {
         return sexo;
+    }
+
+    public String getSexoString() {
+        return String.valueOf(sexo);
     }
 
     public void setSexo(char sexo) {
