@@ -2,9 +2,9 @@ package dto;
 
 import java.sql.Date;
 
-public class AlumnoDTO {
-    
-    private String nre;
+public class ProfesorDTO {
+
+    private String nrp;
     private String dni;
     private String nombre;
     private String apellido1;
@@ -21,19 +21,19 @@ public class AlumnoDTO {
     private String tlfn_movil;
     private String email;
     private Date fecha_nac;
-    private String tutor;
-    
-    public AlumnoDTO() {
+    private String cod_departamento;
+
+    public ProfesorDTO() {
     }
 
-    public AlumnoDTO(String nre) {
-        this.nre = nre;
+    public ProfesorDTO(String nrp) {
+        this.nrp = nrp;
     }
 
-    public AlumnoDTO(String nre, String dni, String nombre, String apellido1, String apellido2, String tipo_via,
+    public ProfesorDTO(String nrp, String dni, String nombre, String apellido1, String apellido2, String tipo_via,
             String nombre_via, String numero, String escalera, String piso, String puerta, String cp, String pais,
-            String tlfn_fijo, String tlfn_movil, String email, Date fecha_nac, String tutor) {
-        this.nre = nre;
+            String tlfn_fijo, String tlfn_movil, String email, Date fecha_nac, String cod_departamento) {
+        this.nrp = nrp;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido1 = apellido1;
@@ -50,15 +50,15 @@ public class AlumnoDTO {
         this.tlfn_movil = tlfn_movil;
         this.email = email;
         this.fecha_nac = fecha_nac;
-        this.tutor = tutor;
-    }
-    
-    public String getNre() {
-        return nre;
+        this.cod_departamento = cod_departamento;
     }
 
-    public void setNre(String nre) {
-        this.nre = nre;
+    public String getNrp() {
+        return nrp;
+    }
+
+    public void setNrp(String nrp) {
+        this.nrp = nrp;
     }
 
     public String getDni() {
@@ -189,20 +189,21 @@ public class AlumnoDTO {
         this.fecha_nac = fecha_nac;
     }
 
-    public String getTutor() {
-        return tutor;
+    public String getCod_departamento() {
+        return cod_departamento;
     }
 
-    public void setTutor(String tutor) {
-        this.tutor = tutor;
+    public void setCod_departamento(String cod_departamento) {
+        this.cod_departamento = cod_departamento;
     }
 
     @Override
     public String toString() {
-        return "AlumnoDTO [nre=" + nre + ", dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1
+        return "ProfesorDTO [nrp=" + nrp + ", dni=" + dni + ", nombre=" + nombre + ", apellido1=" + apellido1
                 + ", apellido2=" + apellido2 + ", tipo_via=" + tipo_via + ", nombre_via=" + nombre_via + ", numero="
                 + numero + ", escalera=" + escalera + ", piso=" + piso + ", puerta=" + puerta + ", cp=" + cp + ", pais="
                 + pais + ", tlfn_fijo=" + tlfn_fijo + ", tlfn_movil=" + tlfn_movil + ", email=" + email + ", fecha_nac="
-                + fecha_nac + ", tutor=" + tutor + "]";
+                + fecha_nac + ", cod_departamento=" + cod_departamento + "]";
     }
 }
+

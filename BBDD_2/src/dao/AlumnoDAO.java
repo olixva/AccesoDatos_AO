@@ -13,11 +13,11 @@ import util.Conexion;
 
 public class AlumnoDAO {
     // Sentencia INSERT
-    private static final String SQL_INSERT = "INSERT INTO ALUMNO(nre, dni, nombre, apellido1, apellido2, tipo_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO ALUMNO(nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     // Sentencia DELETE
     private static final String SQL_DELETE = "DELETE FROM alumno WHERE nre = ?";
     // Sentencia UPDATE
-    private static final String SQL_UPDATE = "UPDATE alumno SET dni = ?, nombre = ?, apellido1 = ?, apellido2 = ?, tipo_via = ? numero = ?, escalera = ?, piso = ?, puerta = ?, cp =?, pais = ?, tlfn_fijo = ?, tlfn_movil = ?, email = ?, fecha_nac = ?, tutor = ? WHERE nre = ?";
+    private static final String SQL_UPDATE = "UPDATE alumno SET dni = ?, nombre = ?, apellido1 = ?, apellido2 = ?, tipo_via = ?, nombre_via = ?, numero = ?, escalera = ?, piso = ?, puerta = ?, cp = ?, pais = ?, tlfn_fijo = ?, tlfn_movil = ?, email = ?, fecha_nac = ?, tutor = ? WHERE nre = ?";
     // Sentencia SELECT
     private static final String SQL_SELECT = "SELECT nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor FROM alumno";
 
