@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,9 @@ public class AlumnoDAO {
 
             registros = pS.executeUpdate();
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println(
+                    "\nNo ha sido posible borrar el alumno debido a que se usa en otra tabla, elimine el registro de la otra tabla y vuelva a intentarlo.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

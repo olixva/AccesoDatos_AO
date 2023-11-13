@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import dao.*;
 import dto.*;
+import util.Validador;
 
 public class Menu {
 
@@ -125,7 +126,10 @@ public class Menu {
                     String nreBorrar = sc.next();
 
                     AlumnoDTO alumnoBorrar = new AlumnoDTO(nreBorrar);
-                    alumnoDAO.borrar(alumnoBorrar);
+
+                    if (alumnoDAO.borrar(alumnoBorrar) == 0) {
+                        System.out.println("\nNo existe ningun Alumno con ese NRE, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -143,64 +147,58 @@ public class Menu {
         AlumnoDTO nuevoAlumno = new AlumnoDTO();
 
         System.out.println("Introduce el nre del alumno: ");
-        nuevoAlumno.setNre(sc.next());
+        nuevoAlumno.setNre(Validador.pedirNumeroRegional());
 
         System.out.println("Introduce el dni del alumno: ");
-        nuevoAlumno.setDni(sc.next());
+        nuevoAlumno.setDni(Validador.pedirDni());
 
         System.out.println("Introduce el nombre del alumno: ");
-        nuevoAlumno.setNombre(sc.next());
+        nuevoAlumno.setNombre(Validador.pedirVarchar());
 
         System.out.println("Introduce el apellido1 del alumno: ");
-        nuevoAlumno.setApellido1(sc.next());
+        nuevoAlumno.setApellido1(Validador.pedirVarchar());
 
         System.out.println("Introduce el apellido2 del alumno: ");
-        nuevoAlumno.setApellido2(sc.next());
+        nuevoAlumno.setApellido2(Validador.pedirVarchar());
 
         System.out.println("Introduce el tipo de via del alumno: ");
-        nuevoAlumno.setTipo_via(sc.next());
+        nuevoAlumno.setTipo_via(Validador.pedirVarchar());
 
         System.out.println("Introduce el nombre de la via del alumno: ");
-        nuevoAlumno.setNombre_via(sc.next());
+        nuevoAlumno.setNombre_via(Validador.pedirVarchar());
 
         System.out.println("Introduce el numero del alumno: ");
-        nuevoAlumno.setNumero(sc.next());
+        nuevoAlumno.setNumero(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce la escalera del alumno: ");
-        nuevoAlumno.setEscalera(sc.next());
+        nuevoAlumno.setEscalera(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce el piso del alumno: ");
-        nuevoAlumno.setPiso(sc.next());
+        nuevoAlumno.setPiso(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce la puerta del alumno: ");
-        nuevoAlumno.setPuerta(sc.next());
+        nuevoAlumno.setPuerta(Validador.pedirVarchar());
 
         System.out.println("Introduce el CP del alumno: ");
-        nuevoAlumno.setCp(sc.next());
+        nuevoAlumno.setCp(Validador.pedirCp());
 
         System.out.println("Introduce el pais del alumno: ");
-        nuevoAlumno.setPais(sc.next());
+        nuevoAlumno.setPais(Validador.pedirVarchar());
 
         System.out.println("Introduce el telefono fijo del alumno: ");
-        nuevoAlumno.setTlfn_fijo(sc.next());
+        nuevoAlumno.setTlfn_fijo(Validador.pedirNumeroTelefono());
 
         System.out.println("Introduce el telefono movil del alumno: ");
-        nuevoAlumno.setTlfn_movil(sc.next());
+        nuevoAlumno.setTlfn_movil(Validador.pedirNumeroTelefono());
 
         System.out.println("Introduce el email del alumno: ");
-        nuevoAlumno.setEmail(sc.next());
+        nuevoAlumno.setEmail(Validador.pedirMail());
 
-        try {
-            System.out.println("Introduce fecha de nacimiento del alumno (AAAA-MM-DD): ");
-            nuevoAlumno.setFecha_nac(Date.valueOf(sc.next()));
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Fecha en formato invalido, el formato debe ser AAAA-MM-DD");
-            return null;
-        }
+        System.out.println("Introduce fecha de nacimiento del alumno (AAAA-MM-DD): ");
+        nuevoAlumno.setFecha_nac(Validador.pedirFecha());
 
         System.out.println("Introduce el tutor del alumno: ");
-        nuevoAlumno.setTipo_via(sc.next());
+        nuevoAlumno.setTipo_via(Validador.pedirVarchar());
 
         return nuevoAlumno;
     }
@@ -237,7 +235,10 @@ public class Menu {
                     String codBorrar = sc.next();
 
                     DepartamentoDTO departamentoBorrar = new DepartamentoDTO(codBorrar);
-                    departamentoDAO.borrar(departamentoBorrar);
+
+                    if (departamentoDAO.borrar(departamentoBorrar) == 0) {
+                        System.out.println("\nNo existe ningun Departamento con ese codigo, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -255,13 +256,13 @@ public class Menu {
         DepartamentoDTO nuevoDepartamento = new DepartamentoDTO();
 
         System.out.println("Introduce el código del departamento: ");
-        nuevoDepartamento.setCod_departamento(sc.next());
+        nuevoDepartamento.setCod_departamento(Validador.pedirNumeroVarchar(3));
 
         System.out.println("Introduce el nombre del departamento: ");
-        nuevoDepartamento.setNombre(sc.next());
+        nuevoDepartamento.setNombre(Validador.pedirVarchar());
 
         System.out.println("Introduce la descripción del departamento: ");
-        nuevoDepartamento.setDescripcion(sc.next());
+        nuevoDepartamento.setDescripcion(Validador.pedirVarchar());
 
         return nuevoDepartamento;
     }
@@ -298,7 +299,10 @@ public class Menu {
                     String nrpBorrar = sc.next();
 
                     ProfesorDTO profesorBorrar = new ProfesorDTO(nrpBorrar);
-                    profesorDAO.borrar(profesorBorrar);
+
+                    if (profesorDAO.borrar(profesorBorrar) == 0) {
+                        System.out.println("\nNo existe ningun Profesor con ese NRP, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -316,64 +320,58 @@ public class Menu {
         ProfesorDTO nuevoProfesor = new ProfesorDTO();
 
         System.out.println("Introduce el NRP del profesor: ");
-        nuevoProfesor.setNrp(sc.next());
+        nuevoProfesor.setNrp(Validador.pedirNumeroRegional());
 
         System.out.println("Introduce el DNI del profesor: ");
-        nuevoProfesor.setDni(sc.next());
+        nuevoProfesor.setDni(Validador.pedirDni());
 
         System.out.println("Introduce el nombre del profesor: ");
-        nuevoProfesor.setNombre(sc.next());
+        nuevoProfesor.setNombre(Validador.pedirVarchar());
 
         System.out.println("Introduce el apellido1 del profesor: ");
-        nuevoProfesor.setApellido1(sc.next());
+        nuevoProfesor.setApellido1(Validador.pedirVarchar());
 
         System.out.println("Introduce el apellido2 del profesor: ");
-        nuevoProfesor.setApellido2(sc.next());
+        nuevoProfesor.setApellido2(Validador.pedirVarchar());
 
         System.out.println("Introduce el tipo de via del profesor: ");
-        nuevoProfesor.setTipo_via(sc.next());
+        nuevoProfesor.setTipo_via(Validador.pedirVarchar());
 
         System.out.println("Introduce el nombre de la via del profesor: ");
-        nuevoProfesor.setNombre_via(sc.next());
+        nuevoProfesor.setNombre_via(Validador.pedirVarchar());
 
         System.out.println("Introduce el numero del profesor: ");
-        nuevoProfesor.setNumero(sc.next());
+        nuevoProfesor.setNumero(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce la escalera del profesor: ");
-        nuevoProfesor.setEscalera(sc.next());
+        nuevoProfesor.setEscalera(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce el piso del profesor: ");
-        nuevoProfesor.setPiso(sc.next());
+        nuevoProfesor.setPiso(Validador.pedirNumeroVarchar());
 
         System.out.println("Introduce la puerta del profesor: ");
-        nuevoProfesor.setPuerta(sc.next());
+        nuevoProfesor.setPuerta(Validador.pedirVarchar());
 
         System.out.println("Introduce el CP del profesor: ");
-        nuevoProfesor.setCp(sc.next());
+        nuevoProfesor.setCp(Validador.pedirCp());
 
         System.out.println("Introduce el pais del profesor: ");
-        nuevoProfesor.setPais(sc.next());
+        nuevoProfesor.setPais(Validador.pedirVarchar());
 
         System.out.println("Introduce el telefono fijo del profesor: ");
-        nuevoProfesor.setTlfn_fijo(sc.next());
+        nuevoProfesor.setTlfn_fijo(Validador.pedirNumeroTelefono());
 
         System.out.println("Introduce el telefono movil del profesor: ");
-        nuevoProfesor.setTlfn_movil(sc.next());
+        nuevoProfesor.setTlfn_movil(Validador.pedirNumeroTelefono());
 
         System.out.println("Introduce el email del profesor: ");
-        nuevoProfesor.setEmail(sc.next());
+        nuevoProfesor.setEmail(Validador.pedirMail());
 
-        try {
-            System.out.println("Introduce fecha de nacimiento del profesor (AAAA-MM-DD): ");
-            nuevoProfesor.setFecha_nac(Date.valueOf(sc.next()));
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Fecha en formato invalido, el formato debe ser AAAA-MM-DD");
-            return null;
-        }
+        System.out.println("Introduce fecha de nacimiento del profesor (AAAA-MM-DD): ");
+        nuevoProfesor.setFecha_nac(Validador.pedirFecha());
 
         System.out.println("Introduce el código del departamento del profesor: ");
-        nuevoProfesor.setCod_departamento(sc.next());
+        nuevoProfesor.setCod_departamento(Validador.pedirCodigoDepartamento());
 
         return nuevoProfesor;
     }
@@ -410,7 +408,10 @@ public class Menu {
                     String codEdificioBorrar = sc.next();
 
                     EdificioDTO edificioBorrar = new EdificioDTO(codEdificioBorrar);
-                    edificioDAO.borrar(edificioBorrar);
+
+                    if (edificioDAO.borrar(edificioBorrar) == 0) {
+                        System.out.println("El codigo del edificio no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -428,10 +429,10 @@ public class Menu {
         EdificioDTO nuevoEdificio = new EdificioDTO();
 
         System.out.println("Introduce el código del edificio: ");
-        nuevoEdificio.setCod_edificio(sc.next());
+        nuevoEdificio.setCod_edificio(Validador.pedirNumeroVarcharMax(2));
 
         System.out.println("Introduce el nombre del edificio: ");
-        nuevoEdificio.setNombre(sc.next());
+        nuevoEdificio.setNombre(Validador.pedirVarchar());
 
         return nuevoEdificio;
     }
@@ -468,7 +469,10 @@ public class Menu {
                     String numAulaBorrar = sc.next();
 
                     AulaDTO aulaBorrar = new AulaDTO(numAulaBorrar);
-                    aulaDAO.borrar(aulaBorrar);
+
+                    if (aulaDAO.borrar(aulaBorrar) == 0) {
+                        System.out.println("El numero de aula no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
