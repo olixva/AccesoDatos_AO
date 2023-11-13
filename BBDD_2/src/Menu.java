@@ -490,10 +490,10 @@ public class Menu {
         AulaDTO nuevaAula = new AulaDTO();
 
         System.out.println("Introduce el número de aula: ");
-        nuevaAula.setNum_aula(sc.next());
+        nuevaAula.setNum_aula(Validador.pedirNumeroVarcharMax(2));
 
         System.out.println("Introduce el código del edificio: ");
-        nuevaAula.setCod_edificio(sc.next());
+        nuevaAula.setCod_edificio(Validador.pedirCodigoEdificio());
 
         return nuevaAula;
     }
@@ -530,7 +530,10 @@ public class Menu {
                     String codCursoBorrar = sc.next();
 
                     CursoDTO cursoBorrar = new CursoDTO(codCursoBorrar);
-                    cursoDAO.borrar(cursoBorrar);
+
+                    if (cursoDAO.borrar(cursoBorrar) == 0) {
+                        System.out.println("El codigo del curso no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -548,13 +551,13 @@ public class Menu {
         CursoDTO nuevoCurso = new CursoDTO();
 
         System.out.println("Introduce el código del curso: ");
-        nuevoCurso.setCod_curso(sc.next());
+        nuevoCurso.setCod_curso(Validador.pedirNumeroVarcharMax(3));
 
         System.out.println("Introduce el nombre del curso: ");
-        nuevoCurso.setNombre(sc.next());
+        nuevoCurso.setNombre(Validador.pedirVarchar());
 
         System.out.println("Introduce la descripción del curso: ");
-        nuevoCurso.setDescripcion(sc.next());
+        nuevoCurso.setDescripcion(Validador.pedirVarchar());
 
         return nuevoCurso;
     }
@@ -591,7 +594,10 @@ public class Menu {
                     String codTurnoBorrar = sc.next();
 
                     TurnoDTO turnoBorrar = new TurnoDTO(codTurnoBorrar);
-                    turnoDAO.borrar(turnoBorrar);
+                    
+                    if (turnoDAO.borrar(turnoBorrar) > 1) {
+                        System.out.println("El codigo del turno no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -609,10 +615,10 @@ public class Menu {
         TurnoDTO nuevoTurno = new TurnoDTO();
 
         System.out.println("Introduce el código del turno: ");
-        nuevoTurno.setCod_turno(sc.next());
+        nuevoTurno.setCod_turno(Validador.pedirNumeroVarcharMax(2));
 
         System.out.println("Introduce el horario del turno: ");
-        nuevoTurno.setHorario(sc.next());
+        nuevoTurno.setHorario(Validador.pedirNumeroVarcharMax(6));
 
         return nuevoTurno;
     }
@@ -649,7 +655,10 @@ public class Menu {
                     String codGrupoBorrar = sc.next();
 
                     GrupoDTO grupoBorrar = new GrupoDTO(codGrupoBorrar);
-                    grupoDAO.borrar(grupoBorrar);
+
+                    if (grupoDAO.borrar(grupoBorrar) == 0) {
+                        System.out.println("El codigo del grupo no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -667,19 +676,19 @@ public class Menu {
         GrupoDTO nuevoGrupo = new GrupoDTO();
 
         System.out.println("Introduce el código del grupo: ");
-        nuevoGrupo.setCod_grupo(sc.next());
+        nuevoGrupo.setCod_grupo(Validador.pedirNumeroVarcharMax(2));
 
         System.out.println("Introduce el código del curso: ");
-        nuevoGrupo.setCod_curso(sc.next());
+        nuevoGrupo.setCod_curso(Validador.pedirCodigoCurso());
 
         System.out.println("Introduce el nombre del grupo: ");
-        nuevoGrupo.setNombre(sc.next());
+        nuevoGrupo.setNombre(Validador.pedirVarchar());
 
         System.out.println("Introduce el código del turno: ");
-        nuevoGrupo.setCod_turno(sc.next());
+        nuevoGrupo.setCod_turno(Validador.pedirCodigoTurno());
 
         System.out.println("Introduce el número máximo de alumnos: ");
-        nuevoGrupo.setnMaxAlumnos(sc.nextInt());
+        nuevoGrupo.setnMaxAlumnos(Validador.pedirNumeroInt());
 
         return nuevoGrupo;
     }
@@ -716,7 +725,10 @@ public class Menu {
                     String codAsignaturaBorrar = sc.next();
 
                     AsignaturaDTO asignaturaBorrar = new AsignaturaDTO(codAsignaturaBorrar);
-                    asignaturaDAO.borrar(asignaturaBorrar);
+
+                    if (asignaturaDAO.borrar(asignaturaBorrar) == 0) {
+                        System.out.println("El codigo de la asignatura no existe, intentelo de nuevo.");
+                    }
                     break;
 
                 case 5:
@@ -734,19 +746,19 @@ public class Menu {
         AsignaturaDTO nuevaAsignatura = new AsignaturaDTO();
 
         System.out.println("Introduce el código de la asignatura: ");
-        nuevaAsignatura.setCod_asignatura(sc.next());
+        nuevaAsignatura.setCod_asignatura(Validador.pedirNumeroVarchar(4));
 
         System.out.println("Introduce el código interno de la asignatura: ");
-        nuevaAsignatura.setCod_interno(sc.next());
+        nuevaAsignatura.setCod_interno(Validador.pedirNumeroVarchar(4));
 
         System.out.println("Introduce la descripción de la asignatura: ");
-        nuevaAsignatura.setDescripcion(sc.next());
+        nuevaAsignatura.setDescripcion(Validador.pedirVarchar());
 
         System.out.println("Introduce el número de horas de la asignatura: ");
-        nuevaAsignatura.setnHoras(sc.nextInt());
+        nuevaAsignatura.setnHoras(Validador.pedirNumeroInt());
 
         System.out.println("Introduce el código del curso de la asignatura: ");
-        nuevaAsignatura.setCod_curso(sc.next());
+        nuevaAsignatura.setCod_curso(Validador.pedirCodigoCurso());
 
         return nuevaAsignatura;
     }

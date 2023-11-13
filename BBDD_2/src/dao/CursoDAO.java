@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class CursoDAO {
     private static final String SQL_DELETE = "DELETE FROM curso WHERE cod_curso = ?";
     private static final String SQL_UPDATE = "UPDATE curso SET nombre = ?, descripcion = ? WHERE cod_curso = ?";
     private static final String SQL_SELECT = "SELECT cod_curso, nombre, descripcion FROM curso";
+    private static final String SQL_SELECTBY = "SELECT * FROM curso WHERE cod_curso = ?";
 
     public int insertar(CursoDTO curso) {
         int registros = 0;
@@ -46,6 +48,9 @@ public class CursoDAO {
 
             registros = pS.executeUpdate();
 
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println(
+                    "\nNo ha sido posible borrar el curso debido a que se usa en otra tabla, elimine el registro de la otra tabla y vuelva a intentarlo.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,6 +98,26 @@ public class CursoDAO {
         }
 
         return cursos;
+    }
+
+    public boolean exist(String codigo) {
+
+        boolean existe = false;
+
+        try (Connection conexion = Conexion.getConnection();
+                PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
+
+            statement.setString(1, codigo);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                existe = resultSet.next(); // Devuelve true si hay al menos un resultado
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
     }
 }
 

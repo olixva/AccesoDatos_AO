@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import util.Conexion;
 
 public class CodigopostalDAO {
-    String SQL_SELECTBY = "SELECT * FROM codigopostal WHERE cp = ?";
+    private static final String SQL_SELECTBY = "SELECT * FROM codigopostal WHERE cp = ?";
 
     public boolean exist(String cp) {
 

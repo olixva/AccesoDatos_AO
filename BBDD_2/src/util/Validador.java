@@ -1,10 +1,10 @@
 package util;
 
 import java.sql.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import dao.CodigopostalDAO;
-import dao.DepartamentoDAO;
+import dao.*;
 
 public class Validador {
 
@@ -215,7 +215,7 @@ public class Validador {
 
     public static String pedirCodigoDepartamento() {
 
-        DepartamentoDAO dpDao = new DepartamentoDAO(); 
+        DepartamentoDAO dpDao = new DepartamentoDAO();
         String codigo;
 
         boolean terminado = false;
@@ -232,5 +232,86 @@ public class Validador {
         }
         return null;
     }
+    
+    public static String pedirCodigoEdificio() {
 
+        EdificioDAO edDao = new EdificioDAO();
+        String codigo;
+
+        boolean terminado = false;
+        while (!terminado) {
+
+            codigo = sc.next();
+
+            if (edDao.exist(codigo)) {
+                terminado = true;
+                return codigo;
+            } else {
+                System.out.println("El edificio no existe, pruebe de nuevo");
+            }
+        }
+        return null;
+    }
+    
+    public static String pedirCodigoCurso() {
+
+        CursoDAO cDao = new CursoDAO();
+        String codigo;
+
+        boolean terminado = false;
+        while (!terminado) {
+
+            codigo = sc.next();
+
+            if (cDao.exist(codigo)) {
+                terminado = true;
+                return codigo;
+            } else {
+                System.out.println("El curso no existe, pruebe de nuevo");
+            }
+        }
+        return null;
+    }
+
+    public static String pedirCodigoTurno() {
+
+        TurnoDAO tDao = new TurnoDAO(); 
+        String codigo;
+
+        boolean terminado = false;
+        while (!terminado) {
+
+            codigo = sc.next();
+
+            if (tDao.exist(codigo)) {
+                terminado = true;
+                return codigo;
+            } else {
+                System.out.println("El turno no existe, pruebe de nuevo");
+            }
+        }
+        return null;
+    }
+
+    public static int pedirNumeroInt() {
+        int numero;
+        boolean terminado = false;
+
+        while (!terminado) {
+            try {
+                numero = sc.nextInt();
+
+                if (numero >= 0 && numero<= 30) {
+                    terminado = true;
+                    return numero;
+                } else {
+                    System.out.println("El número debe estar en el rango de 0 a 30. Intentelo de nuevo:");
+                }
+            } catch (InputMismatchException e) {
+                sc.next();
+                System.out.println("Por favor, ingrese un número entero válido:");
+            }
+        }
+        return 0; 
+    }
 }
