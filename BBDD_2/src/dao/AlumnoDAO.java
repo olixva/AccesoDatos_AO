@@ -21,6 +21,8 @@ public class AlumnoDAO {
     private static final String SQL_UPDATE = "UPDATE alumno SET dni = ?, nombre = ?, apellido1 = ?, apellido2 = ?, tipo_via = ?, nombre_via = ?, numero = ?, escalera = ?, piso = ?, puerta = ?, cp = ?, pais = ?, tlfn_fijo = ?, tlfn_movil = ?, email = ?, fecha_nac = ?, tutor = ? WHERE nre = ?";
     // Sentencia SELECT
     private static final String SQL_SELECT = "SELECT nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor FROM alumno";
+    // Sentencia SELECT BY
+    private static final String SQL_SELECTBY = "SELECT * FROM alumno WHERE nre = ?";
 
     public int insertar(AlumnoDTO alumno) {
         int registros = 0;
@@ -149,5 +151,25 @@ public class AlumnoDAO {
         }
 
         return alumnos;
+    }
+
+    public boolean exist(String nre) {
+
+        boolean existe = false;
+
+        try (Connection conexion = Conexion.getConnection();
+                PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
+
+            statement.setString(1, nre);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                existe = resultSet.next(); // Devuelve true si hay al menos un resultado
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
     }
 }

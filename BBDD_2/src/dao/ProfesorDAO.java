@@ -18,6 +18,7 @@ public class ProfesorDAO {
     private static final String SQL_DELETE = "DELETE FROM profesor WHERE nrp = ?";
     private static final String SQL_UPDATE = "UPDATE profesor SET dni = ?, nombre = ?, apellido1 = ?, apellido2 = ?, tipo_via = ?, nombre_via = ?, numero = ?, escalera = ?, piso = ?, puerta = ?, cp = ?, pais = ?, tlfn_fijo = ?, tlfn_movil = ?, email = ?, fecha_nac = ?, cod_departamento = ? WHERE nrp = ?";
     private static final String SQL_SELECT = "SELECT nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, cod_departamento FROM profesor";
+    private static final String SQL_SELECTBY = "SELECT * FROM profesor WHERE nrp = ?";
 
     public int insertar(ProfesorDTO profesor) {
         int registros = 0;
@@ -144,5 +145,24 @@ public class ProfesorDAO {
         }
 
         return profesores;
+    }
+
+    public boolean exist(String nrp) {
+        boolean existe = false;
+
+        try (Connection conexion = Conexion.getConnection();
+                PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
+
+            statement.setString(1, nrp);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                existe = resultSet.next(); // Devuelve true si hay al menos un resultado
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
     }
 }

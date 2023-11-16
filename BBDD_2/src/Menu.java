@@ -1,5 +1,5 @@
-import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import dao.*;
@@ -9,6 +9,14 @@ import util.Validador;
 public class Menu {
 
     private static Scanner sc = new Scanner(System.in);
+    static AlumnoDAO alumnoDAO = new AlumnoDAO();
+    static DepartamentoDAO departamentoDAO = new DepartamentoDAO();
+    static ProfesorDAO profesorDAO = new ProfesorDAO();
+    static AulaDAO aulaDAO = new AulaDAO();
+    static CursoDAO cursoDAO = new CursoDAO();
+    static TurnoDAO turnoDAO = new TurnoDAO();
+    static GrupoDAO grupoDAO = new GrupoDAO();
+    static AsignaturaDAO asignaturaDAO = new AsignaturaDAO();
 
     public static void main(String[] args) {
         menu();
@@ -95,7 +103,6 @@ public class Menu {
 
     // Submenu de alumno
     private static void subMenuAlumno() {
-        AlumnoDAO alumnoDAO = new AlumnoDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -113,22 +120,32 @@ public class Menu {
                     break;
 
                 case 2:
-                    AlumnoDTO alumnoNuevo = pedirDatosAlumno();
-                    alumnoDAO.insertar(alumnoNuevo);
+                    AlumnoDTO alumnoNuevo = pedirDatosAlumno(Optional.empty());
+                    if (alumnoNuevo != null) {
+                        alumnoDAO.insertar(alumnoNuevo);
+                    }
                     break;
                 case 3:
-                    AlumnoDTO alumnoActualizado = pedirDatosAlumno();
-                    alumnoDAO.actualizar(alumnoActualizado);
+                    System.out.println("Introduce el nre del alumno: ");
+                    String nre = Validador.pedirNumeroRegional();
+
+                    if (alumnoDAO.exist(nre)) {
+                        AlumnoDTO alumnoActualizado = pedirDatosAlumno(Optional.of(nre));
+                        alumnoDAO.actualizar(alumnoActualizado);
+                    } else {
+                        System.out.println("\nERROR: No existe ningun alumno con ese NRE. Pruebe de nuevo");
+                    }
+
                     break;
 
                 case 4:
-                    System.out.println("introduce el NRE del alumno a borrar: ");
+                    System.out.println("Introduce el NRE del alumno a borrar: ");
                     String nreBorrar = sc.next();
 
                     AlumnoDTO alumnoBorrar = new AlumnoDTO(nreBorrar);
 
                     if (alumnoDAO.borrar(alumnoBorrar) == 0) {
-                        System.out.println("\nNo existe ningun Alumno con ese NRE, intentelo de nuevo.");
+                        System.out.println("\nERROR: No existe ningun Alumno con ese NRE, intentelo de nuevo.");
                     }
                     break;
 
@@ -142,12 +159,19 @@ public class Menu {
         }
     }
 
-    private static AlumnoDTO pedirDatosAlumno() {
+    private static AlumnoDTO pedirDatosAlumno(Optional<String> nre) {
 
         AlumnoDTO nuevoAlumno = new AlumnoDTO();
 
-        System.out.println("Introduce el nre del alumno: ");
-        nuevoAlumno.setNre(Validador.pedirNumeroRegional());
+        if (nre.isEmpty()) {
+            System.out.println("Introduce el nre del alumno: ");
+            nuevoAlumno.setNre(Validador.pedirNumeroRegional());
+
+            if (alumnoDAO.exist(nuevoAlumno.getNre())) {
+                System.out.println("\nERROR: Ya existe un alumno con ese NRE.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el dni del alumno: ");
         nuevoAlumno.setDni(Validador.pedirDni());
@@ -205,7 +229,6 @@ public class Menu {
 
     // Submenu de departamento
     private static void subMenuDepartamento() {
-        DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -221,13 +244,23 @@ public class Menu {
                     break;
 
                 case 2:
-                    DepartamentoDTO departamentoNuevo = pedirDatosDepartamento();
-                    departamentoDAO.insertar(departamentoNuevo);
+                    DepartamentoDTO departamentoNuevo = pedirDatosDepartamento(Optional.empty());
+                    if (departamentoNuevo != null) {
+                        departamentoDAO.insertar(departamentoNuevo);
+                    }
                     break;
 
                 case 3:
-                    DepartamentoDTO departamentoActualizado = pedirDatosDepartamento();
-                    departamentoDAO.actualizar(departamentoActualizado);
+                    System.out.println("Introduce el codigo del departamento: ");
+                    String codigo = Validador.pedirNumeroVarchar(3);
+
+                    if (departamentoDAO.exist(codigo)) {
+                        DepartamentoDTO departamentoActualizado = pedirDatosDepartamento(Optional.of(codigo));
+                        departamentoDAO.actualizar(departamentoActualizado);
+                    } else {
+                        System.out.println("\nERROR: No existe ningun alumno con ese NRE. Pruebe de nuevo");
+                    }
+
                     break;
 
                 case 4:
@@ -251,12 +284,19 @@ public class Menu {
         }
     }
 
-    private static DepartamentoDTO pedirDatosDepartamento() {
+    private static DepartamentoDTO pedirDatosDepartamento(Optional<String> codigo) {
 
         DepartamentoDTO nuevoDepartamento = new DepartamentoDTO();
 
-        System.out.println("Introduce el código del departamento: ");
-        nuevoDepartamento.setCod_departamento(Validador.pedirNumeroVarchar(3));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código del departamento: ");
+            nuevoDepartamento.setCod_departamento(Validador.pedirNumeroVarchar(3));
+
+            if (departamentoDAO.exist(nuevoDepartamento.getCod_departamento())) {
+                System.out.println("\nERROR: Ya existe un departamento con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el nombre del departamento: ");
         nuevoDepartamento.setNombre(Validador.pedirVarchar());
@@ -269,7 +309,6 @@ public class Menu {
 
     // Submenu de profesor
     private static void subMenuProfesor() {
-        ProfesorDAO profesorDAO = new ProfesorDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -285,13 +324,23 @@ public class Menu {
                     break;
 
                 case 2:
-                    ProfesorDTO profesorNuevo = pedirDatosProfesor();
-                    profesorDAO.insertar(profesorNuevo);
+                    ProfesorDTO profesorNuevo = pedirDatosProfesor(Optional.empty());
+                    if (profesorNuevo != null) {
+                        profesorDAO.insertar(profesorNuevo);
+                    }
                     break;
 
                 case 3:
-                    ProfesorDTO profesorActualizado = pedirDatosProfesor();
-                    profesorDAO.actualizar(profesorActualizado);
+                    System.out.println("Introduce el nrp del profesor: ");
+                    String nrp = Validador.pedirNumeroRegional();
+
+                    if (profesorDAO.exist(nrp)) {
+                        ProfesorDTO profesorActualizado = pedirDatosProfesor(Optional.of(nrp));
+                        profesorDAO.actualizar(profesorActualizado);
+                    } else {
+                        System.out.println("\nERROR: No existe ningun profesor con ese NRP. Pruebe de nuevo");
+                    }
+
                     break;
 
                 case 4:
@@ -315,12 +364,19 @@ public class Menu {
         }
     }
 
-    private static ProfesorDTO pedirDatosProfesor() {
+    private static ProfesorDTO pedirDatosProfesor(Optional<String> nrp) {
 
         ProfesorDTO nuevoProfesor = new ProfesorDTO();
 
-        System.out.println("Introduce el NRP del profesor: ");
-        nuevoProfesor.setNrp(Validador.pedirNumeroRegional());
+        if (nrp.isEmpty()) {
+            System.out.println("Introduce el nre del alumno: ");
+            nuevoProfesor.setNrp(Validador.pedirNumeroRegional());
+
+            if (profesorDAO.exist(nuevoProfesor.getNrp())) {
+                System.out.println("\nERROR: Ya existe un profesor con ese NRP.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el DNI del profesor: ");
         nuevoProfesor.setDni(Validador.pedirDni());
@@ -439,7 +495,6 @@ public class Menu {
 
     // Submenu de aula
     private static void subMenuAula() {
-        AulaDAO aulaDAO = new AulaDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -500,7 +555,6 @@ public class Menu {
 
     // Submenu de curso
     private static void subMenuCurso() {
-        CursoDAO cursoDAO = new CursoDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -564,7 +618,6 @@ public class Menu {
 
     // Submenu de turno
     private static void subMenuTurno() {
-        TurnoDAO turnoDAO = new TurnoDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -594,7 +647,7 @@ public class Menu {
                     String codTurnoBorrar = sc.next();
 
                     TurnoDTO turnoBorrar = new TurnoDTO(codTurnoBorrar);
-                    
+
                     if (turnoDAO.borrar(turnoBorrar) > 1) {
                         System.out.println("El codigo del turno no existe, intentelo de nuevo.");
                     }
@@ -625,7 +678,6 @@ public class Menu {
 
     // Submenu de grupo
     private static void subMenuGrupo() {
-        GrupoDAO grupoDAO = new GrupoDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -695,7 +747,6 @@ public class Menu {
 
     // Submenu de asignatura
     private static void subMenuAsignatura() {
-        AsignaturaDAO asignaturaDAO = new AsignaturaDAO();
 
         boolean continuar = true;
         while (continuar) {

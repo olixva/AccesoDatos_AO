@@ -17,6 +17,7 @@ public class AsignaturaDAO {
     private static final String SQL_DELETE = "DELETE FROM asignatura WHERE cod_asignatura = ?";
     private static final String SQL_UPDATE = "UPDATE asignatura SET cod_interno = ?, descripcion = ?, nHoras = ?, cod_curso = ? WHERE cod_asignatura = ?";
     private static final String SQL_SELECT = "SELECT cod_asignatura, cod_interno, descripcion, nHoras, cod_curso FROM asignatura";
+    private static final String SQL_SELECTBY = "SELECT * FROM asignatura WHERE cod_asignatura = ?";
 
     public int insertar(AsignaturaDTO asignatura) {
         int registros = 0;
@@ -104,5 +105,23 @@ public class AsignaturaDAO {
 
         return asignaturas;
     }
-}
 
+    public boolean exist(String cod_asignatura) {
+        boolean existe = false;
+
+        try (Connection conexion = Conexion.getConnection();
+             PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
+
+            statement.setString(1, cod_asignatura);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                existe = resultSet.next(); // Devuelve true si hay al menos un resultado
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return existe;
+    }
+}
