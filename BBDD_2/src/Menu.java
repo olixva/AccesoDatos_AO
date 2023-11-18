@@ -12,6 +12,7 @@ public class Menu {
     static AlumnoDAO alumnoDAO = new AlumnoDAO();
     static DepartamentoDAO departamentoDAO = new DepartamentoDAO();
     static ProfesorDAO profesorDAO = new ProfesorDAO();
+    static EdificioDAO edificioDAO = new EdificioDAO();
     static AulaDAO aulaDAO = new AulaDAO();
     static CursoDAO cursoDAO = new CursoDAO();
     static TurnoDAO turnoDAO = new TurnoDAO();
@@ -131,6 +132,7 @@ public class Menu {
 
                     if (alumnoDAO.exist(nre)) {
                         AlumnoDTO alumnoActualizado = pedirDatosAlumno(Optional.of(nre));
+                        alumnoActualizado.setNre(nre);
                         alumnoDAO.actualizar(alumnoActualizado);
                     } else {
                         System.out.println("\nERROR: No existe ningun alumno con ese NRE. Pruebe de nuevo");
@@ -256,6 +258,7 @@ public class Menu {
 
                     if (departamentoDAO.exist(codigo)) {
                         DepartamentoDTO departamentoActualizado = pedirDatosDepartamento(Optional.of(codigo));
+                        departamentoActualizado.setCod_departamento(codigo);
                         departamentoDAO.actualizar(departamentoActualizado);
                     } else {
                         System.out.println("\nERROR: No existe ningun alumno con ese NRE. Pruebe de nuevo");
@@ -336,6 +339,7 @@ public class Menu {
 
                     if (profesorDAO.exist(nrp)) {
                         ProfesorDTO profesorActualizado = pedirDatosProfesor(Optional.of(nrp));
+                        profesorActualizado.setNrp(nrp);
                         profesorDAO.actualizar(profesorActualizado);
                     } else {
                         System.out.println("\nERROR: No existe ningun profesor con ese NRP. Pruebe de nuevo");
@@ -369,7 +373,7 @@ public class Menu {
         ProfesorDTO nuevoProfesor = new ProfesorDTO();
 
         if (nrp.isEmpty()) {
-            System.out.println("Introduce el nre del alumno: ");
+            System.out.println("Introduce el nrp del profesor: ");
             nuevoProfesor.setNrp(Validador.pedirNumeroRegional());
 
             if (profesorDAO.exist(nuevoProfesor.getNrp())) {
@@ -434,7 +438,6 @@ public class Menu {
 
     // Submenu de edificio
     private static void subMenuEdificio() {
-        EdificioDAO edificioDAO = new EdificioDAO();
 
         boolean continuar = true;
         while (continuar) {
@@ -450,17 +453,29 @@ public class Menu {
                     break;
 
                 case 2:
-                    EdificioDTO edificioNuevo = pedirDatosEdificio();
-                    edificioDAO.insertar(edificioNuevo);
+                    EdificioDTO edificioNuevo = pedirDatosEdificio(Optional.empty());
+                    if (edificioNuevo != null) {
+                        edificioDAO.insertar(edificioNuevo);
+                    }
                     break;
 
                 case 3:
-                    EdificioDTO edificioActualizado = pedirDatosEdificio();
-                    edificioDAO.actualizar(edificioActualizado);
+
+                    System.out.println("Introduce el código del edificio: ");
+                    String codigo = Validador.pedirNumeroVarcharMax(2);
+
+                    if (edificioDAO.exist(codigo)) {
+                        EdificioDTO edificioActualizado = pedirDatosEdificio(Optional.of(codigo));
+                        edificioActualizado.setCod_edificio(codigo);
+                        edificioDAO.actualizar(edificioActualizado);
+                    } else {
+                        System.out.println("\nERROR: No existe ningun departamento con ese codigo. Pruebe de nuevo");
+                    }
+
                     break;
 
                 case 4:
-                    System.out.println("Introduce el código del edificio a borrar: ");
+                    System.out.println("Introduce el codigo del edificio a borrar: ");
                     String codEdificioBorrar = sc.next();
 
                     EdificioDTO edificioBorrar = new EdificioDTO(codEdificioBorrar);
@@ -480,12 +495,19 @@ public class Menu {
         }
     }
 
-    private static EdificioDTO pedirDatosEdificio() {
+    private static EdificioDTO pedirDatosEdificio(Optional<String> codigo) {
 
         EdificioDTO nuevoEdificio = new EdificioDTO();
 
-        System.out.println("Introduce el código del edificio: ");
-        nuevoEdificio.setCod_edificio(Validador.pedirNumeroVarcharMax(2));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código del edificio: ");
+            nuevoEdificio.setCod_edificio(Validador.pedirNumeroVarcharMax(2));
+
+            if (edificioDAO.exist(nuevoEdificio.getCod_edificio())) {
+                System.out.println("\nERROR: Ya existe un alumno con ese NRE.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el nombre del edificio: ");
         nuevoEdificio.setNombre(Validador.pedirVarchar());
@@ -510,13 +532,24 @@ public class Menu {
                     break;
 
                 case 2:
-                    AulaDTO aulaNueva = pedirDatosAula();
-                    aulaDAO.insertar(aulaNueva);
+                    AulaDTO aulaNueva = pedirDatosAula(Optional.empty());
+
+                    if (aulaNueva != null) {
+                        aulaDAO.insertar(aulaNueva);
+                    }
                     break;
 
                 case 3:
-                    AulaDTO aulaActualizada = pedirDatosAula();
-                    aulaDAO.actualizar(aulaActualizada);
+                    System.out.println("Introduce el número de aula: ");
+                    String numero = Validador.pedirNumeroVarcharMax(2);
+
+                    if (aulaDAO.exist(numero)) {
+                        AulaDTO aulaActualizada = pedirDatosAula(Optional.of(numero));
+                        aulaActualizada.setNum_aula(numero);
+                        aulaDAO.actualizar(aulaActualizada);
+                    }else {
+                        System.out.println("\nERROR: No existe ningun aula con ese codigo. Pruebe de nuevo");
+                    }
                     break;
 
                 case 4:
@@ -540,12 +573,18 @@ public class Menu {
         }
     }
 
-    private static AulaDTO pedirDatosAula() {
+    private static AulaDTO pedirDatosAula(Optional<String> codigo) {
 
         AulaDTO nuevaAula = new AulaDTO();
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el número de aula: ");
+            nuevaAula.setNum_aula(Validador.pedirNumeroVarcharMax(2));
 
-        System.out.println("Introduce el número de aula: ");
-        nuevaAula.setNum_aula(Validador.pedirNumeroVarcharMax(2));
+            if (aulaDAO.exist(nuevaAula.getNum_aula())) {
+                System.out.println("\nERROR: Ya existe un aula con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el código del edificio: ");
         nuevaAula.setCod_edificio(Validador.pedirCodigoEdificio());
@@ -570,13 +609,25 @@ public class Menu {
                     break;
 
                 case 2:
-                    CursoDTO cursoNuevo = pedirDatosCurso();
-                    cursoDAO.insertar(cursoNuevo);
+
+                    CursoDTO cursoNuevo = pedirDatosCurso(Optional.empty());
+                    if (cursoNuevo != null) {
+                        cursoDAO.insertar(cursoNuevo);
+                    }
                     break;
 
                 case 3:
-                    CursoDTO cursoActualizado = pedirDatosCurso();
-                    cursoDAO.actualizar(cursoActualizado);
+                    System.out.println("Introduce el código del curso: ");
+                    String codigo = Validador.pedirNumeroVarcharMax(3);
+
+                    if (cursoDAO.exist(codigo)) {
+                        CursoDTO cursoActualizado = pedirDatosCurso(Optional.of(codigo));
+                        cursoActualizado.setCod_curso(codigo);
+                        cursoDAO.actualizar(cursoActualizado);
+                    } else {
+                        System.out.println("\nERROR: No existe ningun curso con ese codigo. Pruebe de nuevo");
+                    }
+
                     break;
 
                 case 4:
@@ -600,12 +651,19 @@ public class Menu {
         }
     }
 
-    private static CursoDTO pedirDatosCurso() {
+    private static CursoDTO pedirDatosCurso(Optional<String> codigo) {
 
         CursoDTO nuevoCurso = new CursoDTO();
 
-        System.out.println("Introduce el código del curso: ");
-        nuevoCurso.setCod_curso(Validador.pedirNumeroVarcharMax(3));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código del curso: ");
+            nuevoCurso.setCod_curso(Validador.pedirNumeroVarcharMax(3));
+
+            if (cursoDAO.exist(nuevoCurso.getCod_curso())) {
+                System.out.println("\nERROR: Ya existe un curso con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el nombre del curso: ");
         nuevoCurso.setNombre(Validador.pedirVarchar());
@@ -633,13 +691,22 @@ public class Menu {
                     break;
 
                 case 2:
-                    TurnoDTO turnoNuevo = pedirDatosTurno();
-                    turnoDAO.insertar(turnoNuevo);
+                    TurnoDTO turnoNuevo = pedirDatosTurno(Optional.empty());
+
+                    if (turnoNuevo != null) {
+                        turnoDAO.insertar(turnoNuevo);
+                    }
                     break;
 
                 case 3:
-                    TurnoDTO turnoActualizado = pedirDatosTurno();
-                    turnoDAO.actualizar(turnoActualizado);
+                    System.out.println("Introduce el código del turno: ");
+                    String codigo = Validador.pedirNumeroVarcharMax(2);
+
+                    if (turnoDAO.exist(codigo)) {
+                        TurnoDTO turnoActualizado = pedirDatosTurno(Optional.of(codigo));
+                        turnoActualizado.setCod_turno(codigo);
+                        turnoDAO.actualizar(turnoActualizado);
+                    }
                     break;
 
                 case 4:
@@ -663,15 +730,22 @@ public class Menu {
         }
     }
 
-    private static TurnoDTO pedirDatosTurno() {
+    private static TurnoDTO pedirDatosTurno(Optional<String> codigo) {
 
         TurnoDTO nuevoTurno = new TurnoDTO();
 
-        System.out.println("Introduce el código del turno: ");
-        nuevoTurno.setCod_turno(Validador.pedirNumeroVarcharMax(2));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código del turno: ");
+            nuevoTurno.setCod_turno(Validador.pedirNumeroVarcharMax(2));
+
+            if (turnoDAO.exist(nuevoTurno.getCod_turno())) {
+                System.out.println("\nERROR: Ya existe un turno con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el horario del turno: ");
-        nuevoTurno.setHorario(Validador.pedirNumeroVarcharMax(6));
+        nuevoTurno.setHorario(Validador.pedirVarchar());
 
         return nuevoTurno;
     }
@@ -693,13 +767,24 @@ public class Menu {
                     break;
 
                 case 2:
-                    GrupoDTO grupoNuevo = pedirDatosGrupo();
-                    grupoDAO.insertar(grupoNuevo);
+                    GrupoDTO grupoNuevo = pedirDatosGrupo(Optional.empty());
+
+                    if (grupoNuevo != null) {
+                        grupoDAO.insertar(grupoNuevo);
+                    }
                     break;
 
                 case 3:
-                    GrupoDTO grupoActualizado = pedirDatosGrupo();
-                    grupoDAO.actualizar(grupoActualizado);
+                    System.out.println("Introduce el código del grupo: ");
+                    String codigo = Validador.pedirNumeroVarcharMax(2);
+
+                    if (grupoDAO.exist(codigo)) {
+                        GrupoDTO grupoActualizado = pedirDatosGrupo(Optional.of(codigo));
+                        grupoActualizado.setCod_curso(codigo);
+                        grupoDAO.actualizar(grupoActualizado);
+                    }else {
+                        System.out.println("\nERROR: No existe ningun grupo con ese codigo. Pruebe de nuevo");
+                    }
                     break;
 
                 case 4:
@@ -723,12 +808,19 @@ public class Menu {
         }
     }
 
-    private static GrupoDTO pedirDatosGrupo() {
+    private static GrupoDTO pedirDatosGrupo(Optional<String> codigo) {
 
         GrupoDTO nuevoGrupo = new GrupoDTO();
 
-        System.out.println("Introduce el código del grupo: ");
-        nuevoGrupo.setCod_grupo(Validador.pedirNumeroVarcharMax(2));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código del grupo: ");
+            nuevoGrupo.setCod_grupo(Validador.pedirNumeroVarcharMax(2));
+
+            if (grupoDAO.exist(nuevoGrupo.getCod_grupo())) {
+                System.out.println("\nERROR: Ya existe un grupo con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el código del curso: ");
         nuevoGrupo.setCod_curso(Validador.pedirCodigoCurso());
@@ -762,13 +854,24 @@ public class Menu {
                     break;
 
                 case 2:
-                    AsignaturaDTO asignaturaNueva = pedirDatosAsignatura();
-                    asignaturaDAO.insertar(asignaturaNueva);
+                    AsignaturaDTO asignaturaNueva = pedirDatosAsignatura(Optional.empty());
+
+                    if (asignaturaNueva != null) {
+                        asignaturaDAO.insertar(asignaturaNueva);
+                    }
                     break;
 
                 case 3:
-                    AsignaturaDTO asignaturaActualizada = pedirDatosAsignatura();
-                    asignaturaDAO.actualizar(asignaturaActualizada);
+                    System.out.println("Introduce el código de la asignatura: ");
+                    String codigo = Validador.pedirNumeroVarchar(4);
+
+                    if (asignaturaDAO.exist(codigo)) {
+                        AsignaturaDTO asignaturaActualizada = pedirDatosAsignatura(Optional.of(codigo));
+                        asignaturaActualizada.setCod_asignatura(codigo);
+                        asignaturaDAO.actualizar(asignaturaActualizada);
+                    }else {
+                        System.out.println("\nERROR: No existe ninguna asignatura con ese codigo. Pruebe de nuevo");
+                    }
                     break;
 
                 case 4:
@@ -792,12 +895,19 @@ public class Menu {
         }
     }
 
-    private static AsignaturaDTO pedirDatosAsignatura() {
+    private static AsignaturaDTO pedirDatosAsignatura(Optional<String> codigo) {
 
         AsignaturaDTO nuevaAsignatura = new AsignaturaDTO();
 
-        System.out.println("Introduce el código de la asignatura: ");
-        nuevaAsignatura.setCod_asignatura(Validador.pedirNumeroVarchar(4));
+        if (codigo.isEmpty()) {
+            System.out.println("Introduce el código de la asignatura: ");
+            nuevaAsignatura.setCod_asignatura(Validador.pedirNumeroVarchar(4));
+
+            if (asignaturaDAO.exist(nuevaAsignatura.getCod_asignatura())) {
+                System.out.println("\nERROR: Ya existe una asignatura con ese codigo.");
+                return null;
+            }
+        }
 
         System.out.println("Introduce el código interno de la asignatura: ");
         nuevaAsignatura.setCod_interno(Validador.pedirNumeroVarchar(4));
