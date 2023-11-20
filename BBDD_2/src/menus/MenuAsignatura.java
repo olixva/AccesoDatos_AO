@@ -5,11 +5,14 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import dao.AsignaturaDAO;
+import dao.DepartamentoDAO;
 import dto.AsignaturaDTO;
+import dto.DepartamentoDTO;
 import util.Validador;
 
 public class MenuAsignatura {
     private static AsignaturaDAO asignaturaDAO = new AsignaturaDAO();
+    private static DepartamentoDAO departamentoDAO = new DepartamentoDAO();
 
     // Submenu de asignatura
     public void mostrarSubMenu(Scanner sc) {
@@ -17,7 +20,7 @@ public class MenuAsignatura {
         boolean continuar = true;
         while (continuar) {
 
-            switch (Menu.opciones("Asignatura")) {
+            switch (opcionesAsignatura(sc)) {
 
                 case 1:
                     List<AsignaturaDTO> asignaturas = asignaturaDAO.seleccionar();
@@ -60,6 +63,10 @@ public class MenuAsignatura {
                     break;
 
                 case 5:
+                    buscarPorDepartamento();
+                    break;
+
+                case 6:
                     continuar = false;
                     break;
 
@@ -96,5 +103,43 @@ public class MenuAsignatura {
         nuevaAsignatura.setCod_curso(Validador.pedirCodigoCurso());
 
         return nuevaAsignatura;
+    }
+
+    public int opcionesAsignatura(Scanner sc) {
+        System.out.println("\n---------Asignatura---------");
+
+        System.out.println("1.- Listar Asignaturas");
+        System.out.println("2.- Crear Asignatura");
+        System.out.println("3.- Actualizar Asignatura");
+        System.out.println("4.- Eliminar Asignatura");
+        System.out.println("5.- Buscar Asignaturas por Codigo de Departamento");
+        System.out.println("6.- Volver");
+
+        System.out.print("Elige una opcion: ");
+        return sc.nextInt();
+    }
+
+    private void buscarPorDepartamento() {
+
+        List<DepartamentoDTO> departamentos = departamentoDAO.seleccionar();
+
+        departamentos.forEach(aula -> {
+            System.out.println("\n" + aula.toStringCorto());
+        });
+
+        System.out.println("\nIntroduce el codigo del Departamento: ");
+        String codigo = Validador.pedirNumeroVarchar(3);
+
+        if (departamentoDAO.exist(codigo)) {
+            System.out.println("\nLas asinaturas impartidas por el departamento : " + codigo + " son: \n");
+            List<AsignaturaDTO> asignaturasDpto = asignaturaDAO.seleccionarPorDepartamento(codigo);
+
+            for (AsignaturaDTO asignatura : asignaturasDpto) {
+                System.out.println(asignatura.toStringCorto());
+            }
+
+        } else {
+            System.out.println("\nERROR: No existe ningun departamento con ese codigo. Pruebe de nuevo");
+        }
     }
 }

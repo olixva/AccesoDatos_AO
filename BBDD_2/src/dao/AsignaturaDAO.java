@@ -18,12 +18,13 @@ public class AsignaturaDAO {
     private static final String SQL_UPDATE = "UPDATE asignatura SET cod_interno = ?, descripcion = ?, nHoras = ?, cod_curso = ? WHERE cod_asignatura = ?";
     private static final String SQL_SELECT = "SELECT cod_asignatura, cod_interno, descripcion, nHoras, cod_curso FROM asignatura";
     private static final String SQL_SELECTBY = "SELECT * FROM asignatura WHERE cod_asignatura = ?";
+    private static final String SQL_SELECTBY_DPTO = "SELECT DISTINCT cod_asignatura, cod_interno, descripcion, nHoras, cod_curso FROM asignatura INNER JOIN imparte ON cod_asignatura = cod_asig inner join profesor on nrp_profesor = nrp WHERE cod_departamento = ?";
 
     public int insertar(AsignaturaDTO asignatura) {
         int registros = 0;
 
         try (Connection cn = Conexion.getConnection();
-             PreparedStatement pS = cn.prepareStatement(SQL_INSERT)) {
+                PreparedStatement pS = cn.prepareStatement(SQL_INSERT)) {
 
             pS.setString(1, asignatura.getCod_asignatura());
             pS.setString(2, asignatura.getCod_interno());
@@ -44,7 +45,7 @@ public class AsignaturaDAO {
         int registros = 0;
 
         try (Connection cn = Conexion.getConnection();
-             PreparedStatement pS = cn.prepareStatement(SQL_DELETE)) {
+                PreparedStatement pS = cn.prepareStatement(SQL_DELETE)) {
 
             pS.setString(1, asignatura.getCod_asignatura());
 
@@ -64,7 +65,7 @@ public class AsignaturaDAO {
         int registros = 0;
 
         try (Connection cn = Conexion.getConnection();
-             PreparedStatement pS = cn.prepareStatement(SQL_UPDATE)) {
+                PreparedStatement pS = cn.prepareStatement(SQL_UPDATE)) {
 
             pS.setString(1, asignatura.getCod_interno());
             pS.setString(2, asignatura.getDescripcion());
@@ -86,10 +87,38 @@ public class AsignaturaDAO {
         List<AsignaturaDTO> asignaturas = new ArrayList<>();
 
         try (Connection cn = Conexion.getConnection();
-             PreparedStatement pS = cn.prepareStatement(SQL_SELECT);
-             ResultSet rS = pS.executeQuery()) {
+                PreparedStatement pS = cn.prepareStatement(SQL_SELECT);
+                ResultSet rS = pS.executeQuery()) {
 
             while (rS.next()) {
+                String cod_asignatura = rS.getString("cod_asignatura");
+                String cod_interno = rS.getString("cod_interno");
+                String descripcion = rS.getString("descripcion");
+                int nHoras = rS.getInt("nHoras");
+                String cod_curso = rS.getString("cod_curso");
+
+                asignaturas.add(new AsignaturaDTO(cod_asignatura, cod_interno, descripcion, nHoras, cod_curso));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return asignaturas;
+    }
+
+    public List<AsignaturaDTO> seleccionarPorDepartamento(String codigoDpto) {
+
+        List<AsignaturaDTO> asignaturas = new ArrayList<>();
+
+        try (Connection cn = Conexion.getConnection();
+                PreparedStatement pS = cn.prepareStatement(SQL_SELECTBY_DPTO)) {
+
+            pS.setString(1, codigoDpto);
+            ResultSet rS = pS.executeQuery();
+
+            while (rS.next()) {
+
                 String cod_asignatura = rS.getString("cod_asignatura");
                 String cod_interno = rS.getString("cod_interno");
                 String descripcion = rS.getString("descripcion");
@@ -110,7 +139,7 @@ public class AsignaturaDAO {
         boolean existe = false;
 
         try (Connection conexion = Conexion.getConnection();
-             PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
+                PreparedStatement statement = conexion.prepareStatement(SQL_SELECTBY)) {
 
             statement.setString(1, cod_asignatura);
 

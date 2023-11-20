@@ -48,4 +48,8 @@ public class DepartamentoDTO {
         return "DepartamentoDTO [cod_departamento=" + cod_departamento + ", nombre=" + nombre + ", descripcion="
                 + descripcion + "]";
     }
+    
+    public String toStringCorto() {
+        return "Codigo: " + cod_departamento + " Nombre: " + nombre ;
+    }
 }
