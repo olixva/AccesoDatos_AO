@@ -205,4 +205,8 @@ public class AlumnoDTO {
                 + pais + ", tlfn_fijo=" + tlfn_fijo + ", tlfn_movil=" + tlfn_movil + ", email=" + email + ", fecha_nac="
                 + fecha_nac + ", tutor=" + tutor + "]";
     }
+
+    public String toStringCorto() {
+        return "Alumno Nre: " + nre + ", Dni: " + dni + ", Nombre: " + nombre + ", Apellidos: " + apellido1 + " " + apellido2;
+    }
 }

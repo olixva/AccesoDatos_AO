@@ -73,5 +73,9 @@ public class AsignaturaDTO {
                 ", cod_curso='" + cod_curso + '\'' +
                 '}';
     }
-}
 
+    public String toStringCorto() {
+        return "Codigo: " + cod_asignatura +
+                "    Descripcion: " + descripcion;
+    }
+}

@@ -87,7 +87,7 @@ public class Menu {
         return sc.nextInt();
     }
 
-    // Opciones generales para todos los submenu
+    // Opciones generales para algunos submenus
     public static int opciones(String tabla) {
         System.out.println("\n---------" + tabla + "---------");
 

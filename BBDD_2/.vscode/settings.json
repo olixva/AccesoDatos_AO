@@ -4,5 +4,7 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\DAM\\Proyectos VSC\\Java\\Acceso a Datos\\mysql-connector-java-8.0.24.jar"
-    ]
+    ],
+    "docwriter.language": "Spanish",
+    "docwriter.hotkey.windows": "Alt + ."
 }

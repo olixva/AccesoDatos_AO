@@ -51,6 +51,11 @@ public class CursoDTO {
                 ", descripcion='" + descripcion + '\'' +
                 '}';
     }
+
+    public String toStringCorto() {
+        return "Codigo: " + cod_curso +
+                "    Nombre: " + nombre;
+    }
 }
 
 
