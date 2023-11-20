@@ -19,6 +19,7 @@ public class ProfesorDAO {
     private static final String SQL_UPDATE = "UPDATE profesor SET dni = ?, nombre = ?, apellido1 = ?, apellido2 = ?, tipo_via = ?, nombre_via = ?, numero = ?, escalera = ?, piso = ?, puerta = ?, cp = ?, pais = ?, tlfn_fijo = ?, tlfn_movil = ?, email = ?, fecha_nac = ?, cod_departamento = ? WHERE nrp = ?";
     private static final String SQL_SELECT = "SELECT nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, cod_departamento FROM profesor";
     private static final String SQL_SELECTBY = "SELECT * FROM profesor WHERE nrp = ?";
+    private static final String SQL_SELECTBY_AULA = "SELECT DISTINCT nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, cod_departamento FROM profesor INNER JOIN imparte ON nrp = nrp_profesor WHERE num_aula = ?";
 
     public int insertar(ProfesorDTO profesor) {
         int registros = 0;
@@ -117,6 +118,48 @@ public class ProfesorDAO {
                 ResultSet rS = pS.executeQuery()) {
 
             while (rS.next()) {
+                String nrp = rS.getString("nrp");
+                String dni = rS.getString("dni");
+                String nombre = rS.getString("nombre");
+                String apellido1 = rS.getString("apellido1");
+                String apellido2 = rS.getString("apellido2");
+                String tipo_via = rS.getString("tipo_via");
+                String nombre_via = rS.getString("nombre_via");
+                String numero = rS.getString("numero");
+                String escalera = rS.getString("escalera");
+                String piso = rS.getString("piso");
+                String puerta = rS.getString("puerta");
+                String cp = rS.getString("cp");
+                String pais = rS.getString("pais");
+                String tlfn_fijo = rS.getString("tlfn_fijo");
+                String tlfn_movil = rS.getString("tlfn_movil");
+                String email = rS.getString("email");
+                Date fecha_nac = rS.getDate("fecha_nac");
+                String cod_departamento = rS.getString("cod_departamento");
+
+                profesores.add(new ProfesorDTO(nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
+                        escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, cod_departamento));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profesores;
+    }
+
+    public List<ProfesorDTO> seleccionarPorAula(String codigoAula) {
+
+        List<ProfesorDTO> profesores = new ArrayList<>();
+
+        try (Connection cn = Conexion.getConnection();
+                PreparedStatement pS = cn.prepareStatement(SQL_SELECTBY_AULA)) {
+
+            pS.setString(1, codigoAula);
+            ResultSet rS = pS.executeQuery();
+
+            while (rS.next()) {
+
                 String nrp = rS.getString("nrp");
                 String dni = rS.getString("dni");
                 String nombre = rS.getString("nombre");

@@ -205,5 +205,10 @@ public class ProfesorDTO {
                 + pais + ", tlfn_fijo=" + tlfn_fijo + ", tlfn_movil=" + tlfn_movil + ", email=" + email + ", fecha_nac="
                 + fecha_nac + ", cod_departamento=" + cod_departamento + "]";
     }
+
+    public String toStringCorto() {
+        return "Profesor Nrp: " + nrp + ", Dni: " + dni + ", Nombre: " + nombre + ", Apellidos: " + apellido1 + " "
+                + apellido2;
+    }
 }
 

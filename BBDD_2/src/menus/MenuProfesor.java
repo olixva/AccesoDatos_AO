@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import dao.AulaDAO;
 import dao.ProfesorDAO;
+import dto.AlumnoDTO;
+import dto.AsignaturaDTO;
+import dto.AulaDTO;
 import dto.ProfesorDTO;
 import util.Validador;
 
 public class MenuProfesor {
-   private static ProfesorDAO profesorDAO = new ProfesorDAO();
+    private static ProfesorDAO profesorDAO = new ProfesorDAO();
+    private static AulaDAO aulaDAO = new AulaDAO();
 
     // Submenu de profesor
     public void mostrarSubMenu(Scanner sc) {
@@ -17,7 +22,7 @@ public class MenuProfesor {
         boolean continuar = true;
         while (continuar) {
 
-            switch (Menu.opciones("Profesor")) {
+            switch (opcionesProfesor(sc)) {
 
                 case 1:
                     List<ProfesorDTO> profesores = profesorDAO.seleccionar();
@@ -60,6 +65,10 @@ public class MenuProfesor {
                     break;
 
                 case 5:
+                    buscarPorAula();
+                    break;
+
+                case 6:
                     continuar = false;
                     break;
 
@@ -135,5 +144,43 @@ public class MenuProfesor {
         nuevoProfesor.setCod_departamento(Validador.pedirCodigoDepartamento());
 
         return nuevoProfesor;
+    }
+
+    public int opcionesProfesor(Scanner sc) {
+        System.out.println("\n---------Profesor---------");
+
+        System.out.println("1.- Listar Profesores");
+        System.out.println("2.- Crear Profesor");
+        System.out.println("3.- Actualizar Profesor");
+        System.out.println("4.- Eliminar Profesor");
+        System.out.println("5.- Buscar Profesores por Codigo de Aula");
+        System.out.println("6.- Volver");
+
+        System.out.print("Elige una opcion: ");
+        return sc.nextInt();
+    }
+
+    private void buscarPorAula() {
+
+        List<AulaDTO> aulas = aulaDAO.seleccionar();
+
+        aulas.forEach(aula -> {
+            System.out.println("\n" + aula.toStringCorto());
+        });
+
+        System.out.println("\nIntroduce el numero del Aula: ");
+        String numero = Validador.pedirNumeroVarcharMax(2);
+
+        if (aulaDAO.exist(numero)) {
+            System.out.println("\nLos profesores que dan clase en el aula : " + numero + " son: \n");
+            List<ProfesorDTO> profesoresAula = profesorDAO.seleccionarPorAula(numero);
+
+            for (ProfesorDTO profesor : profesoresAula) {
+                System.out.println(profesor.toStringCorto());
+            }
+
+        } else {
+            System.out.println("\nERROR: No existe ninguna aula con ese codigo. Pruebe de nuevo");
+        }
     }
 }

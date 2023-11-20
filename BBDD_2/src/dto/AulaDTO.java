@@ -40,5 +40,9 @@ public class AulaDTO {
                 ", cod_edificio='" + cod_edificio + '\'' +
                 '}';
     }
+
+    public String toStringCorto() {
+        return "Numero: " + num_aula;
+    }
 }
 
