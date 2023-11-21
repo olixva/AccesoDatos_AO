@@ -42,7 +42,6 @@ public class AulaDTO {
     }
 
     public String toStringCorto() {
-        return "Numero: " + num_aula;
+        return "Aula numero: " + num_aula + " Edicifio: " + cod_edificio;
     }
 }
-
