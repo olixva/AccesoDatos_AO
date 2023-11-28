@@ -34,14 +34,16 @@ public class MenuAlumno {
 
                     });
                     break;
-
                 case 2:
+                    listarAlumnosConAsignaturas();
+                    break;
+                case 3:
                     AlumnoDTO alumnoNuevo = pedirDatosAlumno(Optional.empty());
                     if (alumnoNuevo != null) {
                         alumnoDAO.insertar(alumnoNuevo);
                     }
                     break;
-                case 3:
+                case 4:
                     System.out.println("Introduce el nre del alumno: ");
                     String nre = Validador.pedirNumeroRegional();
 
@@ -55,7 +57,7 @@ public class MenuAlumno {
 
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Introduce el NRE del alumno a borrar: ");
                     String nreBorrar = sc.next();
 
@@ -66,18 +68,18 @@ public class MenuAlumno {
                     }
                     break;
 
-                case 5:
+                case 6:
                     buscarPorCurso();
                     break;
 
-                case 6:
+                case 7:
                     buscarPorAsignatura();
                     break;
 
-                    case 7:
+                case 8:
                     buscarPorNombre();
                     break;
-                case 8:
+                case 9:
                     continuar = false;
                     break;
 
@@ -85,6 +87,31 @@ public class MenuAlumno {
                     break;
             }
         }
+    }
+
+    private void listarAlumnosConAsignaturas() {
+
+        System.out.println("Introduce el año: ");
+        String anyo = Validador.pedirNumeroVarcharMax(4);
+
+        List<AlumnoDTO> alumnos = alumnoDAO.seleccionar();
+
+        long startTime = System.currentTimeMillis();
+
+        alumnos.forEach(alumno -> {
+            List<String> asignaturas = asignaturaDAO.selectAsignaturas(alumno, anyo);
+
+            if (!asignaturas.isEmpty()) {
+                System.out.println("\n" + alumno.toStringCorto() + " ---> Asinaturas cursadas en " + anyo + ": ");
+
+                asignaturas.forEach(asignatura -> {
+                    System.out.println(asignatura);
+                });
+            }
+        });
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
     }
 
     private AlumnoDTO pedirDatosAlumno(Optional<String> nre) {
@@ -159,13 +186,14 @@ public class MenuAlumno {
         System.out.println("\n---------ALUMNO---------");
 
         System.out.println("1.- Listar Alumnos");
-        System.out.println("2.- Crear Alumno");
-        System.out.println("3.- Actualizar Alumno");
-        System.out.println("4.- Eliminar Alumno");
-        System.out.println("5.- Buscar Alumnos por Codigo de Curso");
-        System.out.println("6.- Buscar Alumnos por Codigo de Asignatura");
-        System.out.println("7.- Buscar Alumnos por Nombre");
-        System.out.println("8.- Volver");
+        System.out.println("2.- Listar Alumnos con sus asignaturas en determinado anio");
+        System.out.println("3.- Crear Alumno");
+        System.out.println("4.- Actualizar Alumno");
+        System.out.println("5.- Eliminar Alumno");
+        System.out.println("6.- Buscar Alumnos por Codigo de Curso");
+        System.out.println("7.- Buscar Alumnos por Codigo de Asignatura");
+        System.out.println("8.- Buscar Alumnos por Nombre");
+        System.out.println("9.- Volver");
 
         System.out.print("Elige una opcion: ");
         return sc.nextInt();
@@ -231,8 +259,10 @@ public class MenuAlumno {
     }
 
     /**
-     * La función "buscarPorNombre" solicita al usuario que ingrese un nombre o apellido, busca
-     * estudiantes con nombres coincidentes en la base de datos e imprime los resultados.
+     * La función "buscarPorNombre" solicita al usuario que ingrese un nombre o
+     * apellido, busca
+     * estudiantes con nombres coincidentes en la base de datos e imprime los
+     * resultados.
      */
     private void buscarPorNombre() {
 

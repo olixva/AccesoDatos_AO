@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import dao.AsignaturaDAO;
 import dao.AulaDAO;
 import dao.ProfesorDAO;
+import dto.AlumnoDTO;
 import dto.AulaDTO;
 import dto.ProfesorDTO;
 import util.Validador;
@@ -13,6 +15,7 @@ import util.Validador;
 public class MenuProfesor {
     private static ProfesorDAO profesorDAO = new ProfesorDAO();
     private static AulaDAO aulaDAO = new AulaDAO();
+    private static AsignaturaDAO asignaturaDAO = new AsignaturaDAO();
 
     // Submenu de profesor
     public void mostrarSubMenu(Scanner sc) {
@@ -31,13 +34,17 @@ public class MenuProfesor {
                     break;
 
                 case 2:
+                    listarProfesoresConAsignaturas();
+                    break;
+
+                case 3:
                     ProfesorDTO profesorNuevo = pedirDatosProfesor(Optional.empty());
                     if (profesorNuevo != null) {
                         profesorDAO.insertar(profesorNuevo);
                     }
                     break;
 
-                case 3:
+                case 4:
                     System.out.println("Introduce el nrp del profesor: ");
                     String nrp = Validador.pedirNumeroRegional();
 
@@ -51,7 +58,7 @@ public class MenuProfesor {
 
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Introduce el NRP del profesor a borrar: ");
                     String nrpBorrar = sc.next();
 
@@ -62,11 +69,11 @@ public class MenuProfesor {
                     }
                     break;
 
-                case 5:
+                case 6:
                     buscarPorAula();
                     break;
 
-                case 6:
+                case 7:
                     continuar = false;
                     break;
 
@@ -148,6 +155,7 @@ public class MenuProfesor {
         System.out.println("\n---------Profesor---------");
 
         System.out.println("1.- Listar Profesores");
+        System.out.println("2.- Listar asignatura que imparten profesores en un año y departamento");
         System.out.println("2.- Crear Profesor");
         System.out.println("3.- Actualizar Profesor");
         System.out.println("4.- Eliminar Profesor");
@@ -156,6 +164,34 @@ public class MenuProfesor {
 
         System.out.print("Elige una opcion: ");
         return sc.nextInt();
+    }
+
+    private void listarProfesoresConAsignaturas() {
+
+        System.out.println("Introduce el año: ");
+        String anyo = Validador.pedirNumeroVarcharMax(4);
+
+        System.out.println("Introduce el codigo de departamento: ");
+        String codDpto = Validador.pedirNumeroVarchar(3);
+
+        List<ProfesorDTO> profesores = profesorDAO.seleccionar();
+
+        long startTime = System.currentTimeMillis();
+
+        profesores.forEach(profesor -> {
+            List<String> asignaturas = asignaturaDAO.selectAsignaturas(profesor, anyo, codDpto);
+
+            if (!asignaturas.isEmpty()) {
+                System.out.println("\n" + profesor.toStringCorto() + " ---> Asignaturas impartidas en " + anyo + ": ");
+
+                asignaturas.forEach(asignatura -> {
+                    System.out.println(asignatura);
+                });
+            }
+        });
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
     }
 
     private void buscarPorAula() {
