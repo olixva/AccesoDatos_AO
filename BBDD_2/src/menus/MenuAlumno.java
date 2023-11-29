@@ -38,12 +38,15 @@ public class MenuAlumno {
                     listarAlumnosConAsignaturas();
                     break;
                 case 3:
+                    listarAlumnosPorGrupo();
+                    break;
+                case 4:
                     AlumnoDTO alumnoNuevo = pedirDatosAlumno(Optional.empty());
                     if (alumnoNuevo != null) {
                         alumnoDAO.insertar(alumnoNuevo);
                     }
                     break;
-                case 4:
+                case 5:
                     System.out.println("Introduce el nre del alumno: ");
                     String nre = Validador.pedirNumeroRegional();
 
@@ -57,7 +60,7 @@ public class MenuAlumno {
 
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Introduce el NRE del alumno a borrar: ");
                     String nreBorrar = sc.next();
 
@@ -68,18 +71,18 @@ public class MenuAlumno {
                     }
                     break;
 
-                case 6:
+                case 7:
                     buscarPorCurso();
                     break;
 
-                case 7:
+                case 8:
                     buscarPorAsignatura();
                     break;
 
-                case 8:
+                case 9:
                     buscarPorNombre();
                     break;
-                case 9:
+                case 10:
                     continuar = false;
                     break;
 
@@ -112,6 +115,22 @@ public class MenuAlumno {
 
         long endTime = System.currentTimeMillis();
         System.out.println("Tiempo de ejecucion: " + (endTime - startTime) + " milisegundos");
+    }
+
+    private void listarAlumnosPorGrupo() {
+
+        System.out.println("Introduce el año: ");
+        String anyo = Validador.pedirNumeroVarcharMax(4);
+
+        System.out.println("Introduce el codigo del grupo: ");
+        String grupo = Validador.pedirNumeroVarcharMax(4);
+
+        System.out.println("\nLos alumnos del grupo " + grupo + " en el año " + anyo + " son: \n");
+        List<String> alumnos = alumnoDAO.seleccionarPorGrupo(anyo, grupo);
+
+        alumnos.forEach(alumno -> {
+            System.out.println(alumno);
+        });
     }
 
     private AlumnoDTO pedirDatosAlumno(Optional<String> nre) {
@@ -187,13 +206,14 @@ public class MenuAlumno {
 
         System.out.println("1.- Listar Alumnos");
         System.out.println("2.- Listar Alumnos con sus asignaturas en determinado anio");
-        System.out.println("3.- Crear Alumno");
-        System.out.println("4.- Actualizar Alumno");
-        System.out.println("5.- Eliminar Alumno");
-        System.out.println("6.- Buscar Alumnos por Codigo de Curso");
-        System.out.println("7.- Buscar Alumnos por Codigo de Asignatura");
-        System.out.println("8.- Buscar Alumnos por Nombre");
-        System.out.println("9.- Volver");
+        System.out.println("3.- Listar Alumnos de un grupo en un determinado anio");
+        System.out.println("4.- Crear Alumno");
+        System.out.println("5.- Actualizar Alumno");
+        System.out.println("6.- Eliminar Alumno");
+        System.out.println("7.- Buscar Alumnos por Codigo de Curso");
+        System.out.println("8.- Buscar Alumnos por Codigo de Asignatura");
+        System.out.println("9.- Buscar Alumnos por Nombre");
+        System.out.println("10.- Volver");
 
         System.out.print("Elige una opcion: ");
         return sc.nextInt();

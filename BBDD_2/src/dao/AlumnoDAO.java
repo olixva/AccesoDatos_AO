@@ -29,6 +29,8 @@ public class AlumnoDAO {
     private static final String SQL_SELECTBY_ASIGNATURA = "SELECT DISTINCT alumno.nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor FROM alumno INNER JOIN matricula ON alumno.nre = matricula.nre WHERE cod_asig = ?";
     // Sentencia SELECT BY NOMBRE
     private static final String SQL_SELECTBY_NOMBRE = "SELECT DISTINCT alumno.nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero, escalera, piso, puerta, cp, pais, tlfn_fijo, tlfn_movil, email, fecha_nac, tutor FROM alumno WHERE CONCAT(nombre, ' ', apellido1, ' ', apellido2) like ?;";
+    // Sentencia SELECT BY GRUPO Y AÑO
+    private static final String SQL_SELECTBY_ANIO_GRUPO = "SELECT DISTINCT CONCAT(a.nombre , ' ' , a.apellido1 , ' ' , a.apellido2) as nombre FROM alumno a INNER JOIN matricula m ON a.nre = m.nre INNER JOIN curso c ON m.cod_curso = c.cod_curso INNER JOIN grupo g ON c.cod_curso = g.cod_curso WHERE m.anyo = ? AND g.cod_grupo = ?";
 
     public int insertar(AlumnoDTO alumno) {
         int registros = 0;
@@ -285,6 +287,32 @@ public class AlumnoDAO {
         return alumnos;
     }
 
+    public List<String> seleccionarPorGrupo(String anyo, String codGrupo) {
+
+        List<String> alumnos = new ArrayList<>();
+
+        try (Connection cn = Conexion.getConnection();
+                PreparedStatement pS = cn.prepareStatement(SQL_SELECTBY_ANIO_GRUPO)) {
+
+            pS.setString(1, anyo);
+            pS.setString(2, codGrupo);
+            ResultSet rS = pS.executeQuery();
+
+            while (rS.next()) {
+
+                String nombre = rS.getString("nombre");
+                
+                alumnos.add(nombre);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return alumnos;
+    }
+        
+    
     public boolean exist(String nre) {
 
         boolean existe = false;
