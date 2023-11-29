@@ -156,11 +156,11 @@ public class MenuProfesor {
 
         System.out.println("1.- Listar Profesores");
         System.out.println("2.- Listar asignatura que imparten profesores en un año y departamento");
-        System.out.println("2.- Crear Profesor");
-        System.out.println("3.- Actualizar Profesor");
-        System.out.println("4.- Eliminar Profesor");
-        System.out.println("5.- Buscar Profesores por Codigo de Aula");
-        System.out.println("6.- Volver");
+        System.out.println("3.- Crear Profesor");
+        System.out.println("4.- Actualizar Profesor");
+        System.out.println("5.- Eliminar Profesor");
+        System.out.println("6.- Buscar Profesores por Codigo de Aula");
+        System.out.println("7.- Volver");
 
         System.out.print("Elige una opcion: ");
         return sc.nextInt();
