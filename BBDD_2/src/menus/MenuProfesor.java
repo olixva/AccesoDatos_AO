@@ -7,7 +7,6 @@ import java.util.Scanner;
 import dao.AsignaturaDAO;
 import dao.AulaDAO;
 import dao.ProfesorDAO;
-import dto.AlumnoDTO;
 import dto.AulaDTO;
 import dto.ProfesorDTO;
 import util.Validador;
