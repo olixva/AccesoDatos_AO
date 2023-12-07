@@ -1,0 +1,16 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "c:\\Users\\Anton\\Downloads\\conectoresSQL\\sqlite-jdbc-3.8.11.2.jar",
+            "c:\\DAM\\Proyectos VSC\\Java\\Acceso a Datos\\sqlite-jdbc-3.8.11.2.jar"
+        ],
+        "exclude": [
+            "c:\\DAM\\Proyectos VSC\\Java\\Acceso a Datos\\sqlite-jdbc-3.44.1.0.jar"
+        ]
+    },
+    "docwriter.language": "Spanish",
+    "docwriter.hotkey.windows": "Alt + ."
+}
