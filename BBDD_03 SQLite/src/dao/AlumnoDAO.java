@@ -54,7 +54,7 @@ public class AlumnoDAO {
             pS.setString(14, alumno.getTlfn_fijo());
             pS.setString(15, alumno.getTlfn_movil());
             pS.setString(16, alumno.getEmail());
-            pS.setDate(17, alumno.getFecha_nac());
+            pS.setString(17, alumno.getFecha_nac().toString());
             pS.setString(18, alumno.getTutor());
 
             registros = pS.executeUpdate();
@@ -107,7 +107,7 @@ public class AlumnoDAO {
             pS.setString(13, alumno.getTlfn_fijo());
             pS.setString(14, alumno.getTlfn_movil());
             pS.setString(15, alumno.getEmail());
-            pS.setDate(16, alumno.getFecha_nac());
+            pS.setString(17, alumno.getFecha_nac().toString());
             pS.setString(17, alumno.getTutor());
             pS.setString(18, alumno.getNre());
 

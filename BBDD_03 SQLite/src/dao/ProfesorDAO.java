@@ -43,7 +43,7 @@ public class ProfesorDAO {
             pS.setString(14, profesor.getTlfn_fijo());
             pS.setString(15, profesor.getTlfn_movil());
             pS.setString(16, profesor.getEmail());
-            pS.setDate(17, profesor.getFecha_nac());
+            pS.setString(17, profesor.getFecha_nac().toString());
             pS.setString(18, profesor.getCod_departamento());
 
             registros = pS.executeUpdate();
