@@ -147,7 +147,7 @@ public class AlumnoDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String tutor = rS.getString("tutor");
 
                 alumnos.add(new AlumnoDTO(nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
@@ -189,7 +189,7 @@ public class AlumnoDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String tutor = rS.getString("tutor");
 
                 alumnos.add(new AlumnoDTO(nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
@@ -231,7 +231,7 @@ public class AlumnoDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String tutor = rS.getString("tutor");
 
                 alumnos.add(new AlumnoDTO(nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
@@ -273,7 +273,7 @@ public class AlumnoDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String tutor = rS.getString("tutor");
 
                 alumnos.add(new AlumnoDTO(nre, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,

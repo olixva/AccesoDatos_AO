@@ -134,7 +134,7 @@ public class ProfesorDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String cod_departamento = rS.getString("cod_departamento");
 
                 profesores.add(new ProfesorDTO(nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
@@ -176,7 +176,7 @@ public class ProfesorDAO {
                 String tlfn_fijo = rS.getString("tlfn_fijo");
                 String tlfn_movil = rS.getString("tlfn_movil");
                 String email = rS.getString("email");
-                Date fecha_nac = rS.getDate("fecha_nac");
+                Date fecha_nac = Date.valueOf(rS.getString("fecha_nac"));
                 String cod_departamento = rS.getString("cod_departamento");
 
                 profesores.add(new ProfesorDTO(nrp, dni, nombre, apellido1, apellido2, tipo_via, nombre_via, numero,
