@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import conections.Conexion;
@@ -16,7 +17,9 @@ public class EmpleadoDAOMySQL {
     Conexion connMySQL = new ConexionMySQL();
 
     private static String SQL_SELECT = "SELECT * FROM empleados";
+    private static String SQL_DELETE = "DELETE FROM empleados WHERE num = ?";
 
+    // Funcion para seleccionar todos los empleados de la tabla empleados
     public List<EmpleadoDTO> seleccionarEmpleados() {
         List<EmpleadoDTO> empleados = new ArrayList<>();
 
@@ -39,5 +42,16 @@ public class EmpleadoDAOMySQL {
             e.printStackTrace();
         }
         return empleados;
+    }
+
+    public int eliminarEmpleado(int numEmpleado) {
+        try (Connection conn = connMySQL.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL_DELETE);) {
+            stmt.setInt(1, numEmpleado);
+            return stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

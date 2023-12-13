@@ -1,10 +1,13 @@
 import java.util.Scanner;
 
 import dao.EmpleadoDAOMySQL;
+import dao.EmpleadoDAOSQLite;
 
 public class Menu {
 
     static Scanner sc = new Scanner(System.in);
+    static EmpleadoDAOMySQL empleadoDAOMySQL = new EmpleadoDAOMySQL();
+    static EmpleadoDAOSQLite empleadoDAOSQLite = new EmpleadoDAOSQLite();
 
     public static void main(String[] args) {
 
@@ -26,19 +29,19 @@ public class Menu {
                     break;
 
                 case 2:
-                    //copiarTablaEmpleados();
+                    copiarTablaEmpleados();
                     break;
 
                 case 3:
-                    //mostrarEmpleadosSQLite();
+                    mostrarEmpleadosSQLite();
                     break;
 
                 case 4:
-                    //eliminarEmpleadoMySQL();
+                    eliminarEmpleadoMySQL();
                     break;
 
                 case 5:
-                    //sincronizarDatos();
+                    // sincronizarDatos();
                     break;
 
                 case 6:
@@ -48,7 +51,39 @@ public class Menu {
     }
 
     private static void mostrarEmpleadosMySQL() {
-        EmpleadoDAOMySQL empleadoDAOMySQL = new EmpleadoDAOMySQL();
+        System.out.println("\nEmpleados de MySQL:\n");
         empleadoDAOMySQL.seleccionarEmpleados().forEach(System.out::println);
+    }
+
+    private static void copiarTablaEmpleados() {
+
+        // Primero booramos los posibles empleados que haya en la tabla empleados de
+        // SQLite
+        int borrados = empleadoDAOSQLite.borrarEmpleados();
+        System.out.println("\nSe han borrado " + borrados + " empleados de la tabla empleados de SQLite");
+
+        // Ahora recupero todos los empleados de MySQL y los inserto en SQLite
+        empleadoDAOMySQL.seleccionarEmpleados().forEach(empleado -> empleadoDAOSQLite.insertarEmpleado(empleado));
+        System.out.println("\nSe han copiado los empleados de MySQL a SQLite");
+    }
+
+    private static void mostrarEmpleadosSQLite() {
+        System.out.println("\nEmpleados de SQLite:\n");
+        empleadoDAOSQLite.seleccionarEmpleados().forEach(System.out::println);
+    }
+
+    private static void eliminarEmpleadoMySQL() {
+        System.out.println("\nIntroduce el numero de empleado a eliminar:");
+        int numEmpleado = sc.nextInt();
+
+        int eliminado = empleadoDAOMySQL.eliminarEmpleado(numEmpleado);
+
+        if (eliminado > 0) {
+            System.out.println(
+                    "\nSe ha eliminado el empleado con numero " + numEmpleado + " de la tabla empleados de MySQL");
+        } else {
+            System.out.println(
+                    "\nNo se ha eliminado el empleado con numero " + numEmpleado + " de la tabla empleados de MySQL");
+        }
     }
 }
