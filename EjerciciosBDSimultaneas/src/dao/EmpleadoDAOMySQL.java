@@ -26,7 +26,7 @@ public class EmpleadoDAOMySQL {
 
             while (rs.next()) {
 
-                int numEmpleado = rs.getInt("numEmpleado");
+                int numEmpleado = rs.getInt("num");
                 String nombre = rs.getString("nombre");
                 int edad = rs.getInt("edad");
                 int departamento = rs.getInt("departamento");

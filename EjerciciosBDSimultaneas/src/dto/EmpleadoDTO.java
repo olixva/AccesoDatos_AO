@@ -22,7 +22,7 @@ public class EmpleadoDTO {
 
     @Override
     public String toString() {
-        return numEmpleado + ", " + nombre + " Edad: " + edad + ", Departamento:"
-                + departamento + ", Categoria:" + categoria + " Contrato:" + contrato;
+        return numEmpleado + ", " + nombre + " Edad: " + edad + ", Departamento: "
+                + departamento + ", Categoria: " + categoria + " Contrato: " + contrato;
     }
 }

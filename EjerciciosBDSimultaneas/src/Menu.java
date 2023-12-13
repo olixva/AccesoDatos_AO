@@ -10,7 +10,7 @@ public class Menu {
 
         boolean fin = false;
         while (!fin) {
-            System.out.println("----------MENU----------\n");
+            System.out.println("\n----------MENU----------\n");
             System.out.println("1. Mostrar todos los empleados (MySQL)");
             System.out.println("2. Copiar tabla empleados a SQLite");
             System.out.println("3. Mostrar todos los empleados (SQLite)");
