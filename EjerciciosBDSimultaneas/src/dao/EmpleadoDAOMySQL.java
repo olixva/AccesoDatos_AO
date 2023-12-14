@@ -18,6 +18,7 @@ public class EmpleadoDAOMySQL {
 
     private static String SQL_SELECT = "SELECT * FROM empleados";
     private static String SQL_DELETE = "DELETE FROM empleados WHERE num = ?";
+    private static String SQL_INSERT = "INSERT INTO empleados VALUES (?,?,?,?,?,?)";
 
     // Funcion para seleccionar todos los empleados de la tabla empleados
     public List<EmpleadoDTO> seleccionarEmpleados() {
@@ -52,6 +53,25 @@ public class EmpleadoDAOMySQL {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    // Funcion para insertar un empleado en la tabla empleados
+    public void insertarEmpleado(EmpleadoDTO empleado) {
+
+        try (Connection conn = connMySQL.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(SQL_INSERT)) {
+
+            stmt.setInt(1, empleado.getNumEmpleado());
+            stmt.setString(2, empleado.getNombre());
+            stmt.setInt(3, empleado.getEdad());
+            stmt.setInt(4, empleado.getDepartamento());
+            stmt.setInt(5, empleado.getCategoria());
+            stmt.setDate(6, empleado.getContrato());
+
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

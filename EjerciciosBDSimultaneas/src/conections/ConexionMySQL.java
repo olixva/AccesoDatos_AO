@@ -1,4 +1,5 @@
 package conections;
+
 import java.sql.*;
 
 public class ConexionMySQL implements Conexion {

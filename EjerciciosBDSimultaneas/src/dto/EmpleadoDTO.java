@@ -74,5 +74,4 @@ public class EmpleadoDTO {
         this.contrato = contrato;
     }
 
-    
 }

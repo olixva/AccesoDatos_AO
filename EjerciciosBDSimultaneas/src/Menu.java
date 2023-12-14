@@ -1,7 +1,9 @@
+import java.util.List;
 import java.util.Scanner;
 
 import dao.EmpleadoDAOMySQL;
 import dao.EmpleadoDAOSQLite;
+import dto.EmpleadoDTO;
 
 public class Menu {
 
@@ -41,7 +43,7 @@ public class Menu {
                     break;
 
                 case 5:
-                    // sincronizarDatos();
+                    sincronizarDatos();
                     break;
 
                 case 6:
@@ -49,6 +51,7 @@ public class Menu {
             }
         }
     }
+
 
     private static void mostrarEmpleadosMySQL() {
         System.out.println("\nEmpleados de MySQL:\n");
@@ -85,5 +88,31 @@ public class Menu {
             System.out.println(
                     "\nNo se ha eliminado el empleado con numero " + numEmpleado + " de la tabla empleados de MySQL");
         }
+    }
+
+    private static void sincronizarDatos() {
+        //Recuperamos los empleados de SQLite y de MySQL
+        List<EmpleadoDTO> empleadosSQLite = empleadoDAOSQLite.seleccionarEmpleados();
+        List<EmpleadoDTO> empleadosMySQL = empleadoDAOMySQL.seleccionarEmpleados();
+
+        //Recorremos los empleados de SQLite y comprobamos si existen en MySQL
+        empleadosSQLite.forEach(empleadoSQLite -> {
+            
+            boolean existe = false;
+            for (EmpleadoDTO empleadoMySQL : empleadosMySQL) {
+                if (empleadoSQLite.getNumEmpleado() == empleadoMySQL.getNumEmpleado()) {
+                    existe = true;
+                    break;
+                }
+            }
+
+            //Si no existe, lo insertamos en MySQL
+            if (!existe) {
+                empleadoDAOMySQL.insertarEmpleado(empleadoSQLite);
+                System.out.println("\nSe ha insertado el empleado con numero " + empleadoSQLite.getNumEmpleado()
+                        + " en la tabla empleados de MySQL");
+            }
+            
+        });
     }
 }
