@@ -1,15 +1,19 @@
 package lectura;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class LecturaArchivos {
-    public static void lectura() {
-        
+
+    // Metodo para leer un archivo linea por linea y mostrarlo por consola
+    public static void lectura(File archivo) {
+
         try {
-            
-            File archivo = new File("resources/archivo.txt");
             BufferedReader entrada = new BufferedReader(new FileReader(archivo));
-            
+
             String lectura = entrada.readLine();
             while (lectura != null) {
                 System.out.println("Lectura: " + lectura);

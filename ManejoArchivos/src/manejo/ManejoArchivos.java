@@ -1,19 +1,18 @@
 package manejo;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+
+import escritura.EscribirInformacion;
+import lectura.LecturaArchivos;
+import creacion.ManejarArchivo;
 
 public class ManejoArchivos {
     public static void main(String[] args) {
+        File archivo = ManejarArchivo.crear("resources/prueba.txt");
 
-        try {
-            File archivo = new File("resources/archivo.txt");
-            PrintWriter salida = new PrintWriter(new PrintWriter(archivo));
-            salida.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        System.out.println("El archivo se ha creado correctamente");
+        EscribirInformacion.escribirLine(archivo, "Calero el chapero");
+        EscribirInformacion.anexarLine(archivo, "es muy chapero");
+
+        LecturaArchivos.lectura(archivo);
     }
 }
