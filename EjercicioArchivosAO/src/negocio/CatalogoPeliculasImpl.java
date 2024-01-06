@@ -11,10 +11,6 @@ public class CatalogoPeliculasImpl implements CatalogoPeliculas {
 
     AccesoDatos datos;
 
-    public CatalogoPeliculasImpl() {
-        
-    }
-
     public CatalogoPeliculasImpl(AccesoDatos datos) {
         this.datos = datos;
     }

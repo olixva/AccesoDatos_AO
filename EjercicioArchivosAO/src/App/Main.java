@@ -10,21 +10,28 @@ import negocio.CatalogoPeliculasImpl;
 
 public class Main {
 
-    static Scanner sc = new Scanner(System.in);
-    static int opcion;
-    static String nombreArchivo = "resources/peliculas.txt";
-    static CatalogoPeliculas catalogo = new CatalogoPeliculasImpl(new AccesoDatosImpl());
+    private Scanner sc;
+    private int opcion;
+    private String nombreArchivo;
+    private CatalogoPeliculas catalogo;
+
+    public Main(String nombreArchivo, CatalogoPeliculas catalogo) {
+        sc = new Scanner(System.in);
+        this.nombreArchivo = nombreArchivo;
+        this.catalogo = catalogo;
+    }
 
     public static void main(String[] args) {
 
         System.out.println("Bienvenido a la aplicación de catálogo de películas");
         System.out.println("--------------------------------------------------");
 
-        ejecutarMenu();
+        CatalogoPeliculas catalogo = new CatalogoPeliculasImpl(new AccesoDatosImpl());
+        new Main("resources/peliculas.txt", catalogo).ejecutarMenu();
 
     }
 
-    public static void ejecutarMenu() {
+    private void ejecutarMenu() {
 
         do {
             try {
@@ -69,7 +76,7 @@ public class Main {
 
     }
 
-    public static void mostrarMenu() {
+    private static void mostrarMenu() {
         System.out.println("\nElige una opción:\n");
         System.out.println("1.- Iniciar catálogo de películas");
         System.out.println("2.- Agregar película");
