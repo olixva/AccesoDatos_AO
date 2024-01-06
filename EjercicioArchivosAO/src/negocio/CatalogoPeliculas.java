@@ -1,6 +1,7 @@
 package negocio;
 
 import excepciones.ArchivoNoIniciado;
+import excepciones.ArchivoYaIniciado;
 
 public interface CatalogoPeliculas {
 
@@ -10,5 +11,7 @@ public interface CatalogoPeliculas {
 
     public void buscarPelicula(String nombreArchivo, String buscar) throws ArchivoNoIniciado;
 
-    public void iniciarArchivo(String nombreArchivo);
+    public void iniciarArchivo(String nombreArchivo) throws ArchivoYaIniciado;
+
+    public void borrarArchivo(String nombreArchivo) throws ArchivoNoIniciado;
 }

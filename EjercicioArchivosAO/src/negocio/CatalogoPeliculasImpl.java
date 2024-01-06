@@ -5,12 +5,14 @@ import java.util.List;
 import datos.AccesoDatos;
 import domain.Pelicula;
 import excepciones.ArchivoNoIniciado;
+import excepciones.ArchivoYaIniciado;
 
 public class CatalogoPeliculasImpl implements CatalogoPeliculas {
 
     AccesoDatos datos;
 
     public CatalogoPeliculasImpl() {
+        
     }
 
     public CatalogoPeliculasImpl(AccesoDatos datos) {
@@ -63,7 +65,22 @@ public class CatalogoPeliculasImpl implements CatalogoPeliculas {
     }
 
     @Override
-    public void iniciarArchivo(String nombreArchivo) {
+    public void iniciarArchivo(String nombreArchivo) throws ArchivoYaIniciado {
+
+        if (!datos.existe(nombreArchivo)) {
+            datos.crear(nombreArchivo);
+        } else {
+            throw new ArchivoYaIniciado(nombreArchivo);
+        }
     }
 
+    @Override
+    public void borrarArchivo(String nombreArchivo) throws ArchivoNoIniciado {
+            
+            if (datos.existe(nombreArchivo)) {
+                datos.borrar(nombreArchivo);
+            } else {
+                throw new ArchivoNoIniciado(nombreArchivo);
+            }
+    }
 }
