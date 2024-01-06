@@ -6,7 +6,7 @@ import domain.Pelicula;
 
 public interface AccesoDatos {
 
-    //Metodos para leer y escribir archivos
+    // Metodos para leer y escribir archivos
     public boolean existe(String nombreArchivo);
 
     public List<Pelicula> listar(String nombreArchivo);
@@ -15,7 +15,7 @@ public interface AccesoDatos {
 
     public String buscar(String nombreArchivo, String buscar);
 
-    //Metodos para crear y borrar archivos
+    // Metodos para crear y borrar archivos
     public void crear(String nombreArchivo);
 
     public void borrar(String nombreArchivo);

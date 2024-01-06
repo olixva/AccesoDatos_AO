@@ -72,11 +72,11 @@ public class CatalogoPeliculasImpl implements CatalogoPeliculas {
 
     @Override
     public void borrarArchivo(String nombreArchivo) throws ArchivoNoIniciado {
-            
-            if (datos.existe(nombreArchivo)) {
-                datos.borrar(nombreArchivo);
-            } else {
-                throw new ArchivoNoIniciado(nombreArchivo);
-            }
+
+        if (datos.existe(nombreArchivo)) {
+            datos.borrar(nombreArchivo);
+        } else {
+            throw new ArchivoNoIniciado(nombreArchivo);
+        }
     }
 }
